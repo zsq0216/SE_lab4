@@ -1,16 +1,14 @@
-
-
 server:
   port: 9999
 
 spring:
   datasource:
-    username: remoteuser
-    password: password
-    url: jdbc:mysql://120.46.154.28:3306/ShopSystem?useSSL=false&serverTimezone=UTC
-#  redis:
-#    port: 6379
-#    host: 120.46.154.28
+    username: root
+    password: xxplqbdyrywtk
+    url: jdbc:mysql://localhost:3306/shopSystem
+  redis:
+    port: 6379
+    host: localhost
   servlet:
     multipart:
       max-file-size: 50MB
@@ -37,4 +35,4 @@ constants:
   rejectDeleted: 5
 
 prop:
-  upload-folder: /opt/project/springboot/uploadImage/
+  upload-folder: /Users/songwenyan/FduCourses/SoftwareEngineering/code/Lab3/ShopSystem/uploadImage/

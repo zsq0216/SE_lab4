@@ -374,11 +374,11 @@
 
                     <q-input filled v-model="description" label="商品简介 *" hint="Introduce your store within 128 characters"
                       lazy-rules :rules="[val => val && val.length > 0 || '请输入您的简介',
-                      val => val.length < 129 || '超过字数限制']">
+                        val => val.length < 129 || '超过字数限制']">
                     </q-input>
 
                     <q-input filled v-model="price" label="商品价格 *" hint="registered funds" lazy-rules :rules="[val => val && val.length > 0 || '请输入商品价格',
-                    checkprice || '价格需为大与0的浮点数']"></q-input>
+                      checkprice || '价格需为大与0的浮点数']"></q-input>
 
                     <q-uploader field-name="files" style="width: 530px" url="http://120.46.154.28:9999/Goods/uploadImg"
                       label="Restricted to images" multiple @uploading="onFileUploading" accept="image/*"
@@ -620,6 +620,7 @@ function onSubmit() {
       // 处理返回数据
       // 导航到另一个页面
       console.log('shangjia')
+      console.log('shangjia')
       code.value = response.data['code'];
       if (code.value == 20000) {
         layout.value = false;
@@ -661,6 +662,7 @@ onMounted(() => {
   //显示该店铺的信息
   console.log('shopId: ', shopId)
 
+  console.log('current shopID: ', shopId)
   axiosInstance.get('/shop/showShopByShopId', {
     params: {
       shopId: shopId
@@ -710,8 +712,8 @@ function postCommodityEdit() {
     '\ngoods name: ', editComName.value,
     '\ngoods price: ', editComPrice.value,
     '\ngoods description: ', editComDescription.value,
-    '\ngoods shop id:' , editComShopid.value,
-    "\ngoods image: ", editComImage.value,)
+    '\ngoods shop id: ', editComShopid.value,
+    '\ngoods image: ', editComImage.value,)
 
   axiosInstance
     .post('/Goods/updateGoodsApply',
@@ -732,7 +734,7 @@ function postCommodityEdit() {
       //console.log('Response data:', response.data)
       // 处理返回数据
       // 导航到另一个页面
-      console.log("shangjia")
+      console.log('shangjia')
       code.value = response.data['code'];
       if (code.value == 20000) {
         layout.value = false;

@@ -6,13 +6,13 @@
         <q-input filled v-model="username" label="请输入管理员账号 *" hint="Admin account" lazy-rules
           :rules="[val => val && val.length > 0 || 'Please type something']" />
 
-        <q-input v-model="password" label="请输入密码" filled :type="isPwd ? 'password' : 'text'" hint="Password with toggle">
+        <q-input v-model="password" label="请输入密码" filled :type="isPwd ? 'password' : 'text'" hint="Password">
           <template v-slot:append>
             <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
           </template>
         </q-input>
 
-        <q-toggle v-model="accept" label="I accept the license and terms" />
+        <!-- <q-toggle v-model="accept" label="I accept the license and terms" /> -->
 
         <div>
           <q-btn label="Submit" color="primary" to="/admin" type="submit" />
