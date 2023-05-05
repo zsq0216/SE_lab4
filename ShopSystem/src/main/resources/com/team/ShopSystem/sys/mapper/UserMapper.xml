@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.ShopSystem.sys.mapper.UserMapper">
+    <select id="queryByUsername" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM ss_user
+        WHERE username = #{username}
+    </select>
+    <select id="queryByPhone" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM ss_user
+        WHERE phone = #{phone}
+    </select>
+    <select id="queryByIdNumber" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM ss_user
+        WHERE id_number = #{idNumber}
+    </select>
+    <select id="queryByEmail" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM ss_user
+        WHERE email = #{email}
+    </select>
+    <select id="getUserIdByUsername" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT id
+        FROM ss_user
+        WHERE username = #{username}
+    </select>
+    <select id="getUsernameByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT username
+        FROM ss_user
+        WHERE id = #{id}
+    </select>
+    <select id="getById" resultType="com.team.ShopSystem.sys.entity.User">
+        SELECT * FROM ss_user
+        WHERE id = #{id}
+    </select>
+</mapper>

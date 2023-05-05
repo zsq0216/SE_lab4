@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.ShopSystem.sys.mapper.GoodsMapper">
+    <update id="updateStatus">
+        UPDATE ss_goods
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+    <select id="getByStatus" resultType="com.team.ShopSystem.sys.entity.Goods">
+        SELECT * FROM ss_goods
+        WHERE status = #{status}
+    </select>
+    <select id="getByShopId" resultType="com.team.ShopSystem.sys.entity.Goods">
+        SELECT * FROM ss_goods
+        WHERE shop_id = #{shopId}
+    </select>
+    <insert id="insertGoods" keyProperty="id" useGeneratedKeys="true">
+        insert into ss_goods(shop_id, goods_name, description, price, status)
+        values (#{shopId}, #{goodsName}, #{description}, #{price}, #{status})
+    </insert>
+    <select id="getByShopStatus" resultType="com.team.ShopSystem.sys.entity.Goods">
+        SELECT * FROM ss_goods
+        WHERE shop_id = #{shopId} AND status = #{status}
+    </select>
+    <select id="getById" resultType="com.team.ShopSystem.sys.entity.Goods">
+        SELECT * FROM ss_goods
+        WHERE id = #{id}
+    </select>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.ShopSystem.sys.mapper.GoodsImageMapper">
+    <select id="getByGoodsId" resultType="java.lang.String">
+        SELECT image_address
+        FROM ss_goods_image
+        WHERE goods_id = #{goodsId} AND status = 0
+    </select>
+    <select id="getByUpdate" resultType="java.lang.String">
+        SELECT image_address
+        FROM ss_goods_image
+        WHERE goods_id = #{goodsId} AND status = 1
+    </select>
+    <update id="updateStatus">
+        UPDATE ss_goods_image
+        SET status = #{status}
+        WHERE goods_id = #{goodsId}
+    </update>
+    <delete id="deleteByGoodsId">
+        DELETE  FROM ss_goods_image
+        WHERE goods_id = #{goodsId} AND status = #{status}
+    </delete>
+</mapper>

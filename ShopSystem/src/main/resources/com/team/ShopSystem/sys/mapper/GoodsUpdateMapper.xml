@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.ShopSystem.sys.mapper.GoodsUpdateMapper">
+    <select id="getById" resultType="com.team.ShopSystem.sys.entity.GoodsUpdate">
+        SELECT * FROM ss_goods_update
+        WHERE id = #{id}
+    </select>
+    <insert id="insertGoods" keyProperty="id" useGeneratedKeys="true">
+        insert into ss_goods_update(id,shop_id, goods_name, description, price, status)
+        values (#{id}, #{shopId}, #{goodsName}, #{description}, #{price}, #{status})
+    </insert>
+    <select id="queryByGoodsId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM ss_goods_update
+        WHERE id = #{id}
+    </select>
+    <delete id="deleteByGoodsId">
+        DELETE  FROM ss_goods_update
+        WHERE id = #{id}
+    </delete>
+    <select id="getByShopId" resultType="com.team.ShopSystem.sys.entity.GoodsUpdate">
+        SELECT * FROM ss_goods_update
+        WHERE shop_id = #{shopId}
+    </select>
+</mapper>

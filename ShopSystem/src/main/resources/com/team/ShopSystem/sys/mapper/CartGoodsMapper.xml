@@ -1,0 +1,37 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.ShopSystem.sys.mapper.CartGoodsMapper">
+    <update id="updateQuantity">
+        UPDATE ss_cart_goods
+        SET goods_quantity = goods_quantity + #{variate}
+        WHERE cart_id = #{cartId} AND goods_id = #{goodsId}
+    </update>
+    <select id="getByCartId" resultType="com.team.ShopSystem.sys.entity.CartGoods">
+        SELECT * FROM ss_cart_goods
+        WHERE cart_id = #{cartId}
+    </select>
+    <select id="queryById" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM ss_cart_goods
+        WHERE cart_id = #{cartId} AND goods_id = #{goodsId}
+    </select>
+    <delete id="deleteBatch">
+        DELETE FROM ss_cart_goods
+        WHERE cart_id = #{cartId} AND goods_id = #{goodsId}
+    </delete>
+    <delete id="deleteAll">
+        DELETE  FROM ss_cart_goods
+        WHERE cart_id = #{cartId}
+    </delete>
+    <update id="setRemoved">
+        UPDATE ss_cart_goods
+        SET is_removed = 1
+        WHERE goods_id = #{goodsId}
+    </update>
+    <select id="queryByGoodsId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM ss_cart_goods
+        WHERE goods_id = #{goodsId}
+    </select>
+    <select id="getQuantity" resultType="java.lang.Integer">
+        SELECT goods_quantity FROM ss_cart_goods
+        WHERE cart_id = #{cartId} AND goods_id = #{goodsId}
+    </select>
+</mapper>

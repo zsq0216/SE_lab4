@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.ShopSystem.sys.mapper.ShopMapper">
+    <select id="queryByIdNumber" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM ss_shop
+        WHERE id_number = #{idNumber} AND status != 2 AND status != 4
+    </select>
+    <select id="queryByShopName" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM ss_shop
+        WHERE shop_name = #{shopName} AND status != 2 AND status != 4
+    </select>
+    <update id="updateStatus">
+        UPDATE ss_shop
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+    <select id="getByStatus" resultType="com.team.ShopSystem.sys.entity.Shop">
+        SELECT * FROM ss_shop
+        WHERE status = #{status}
+    </select>
+    <select id="getByUserId" resultType="com.team.ShopSystem.sys.entity.Shop">
+        SELECT * FROM ss_shop
+        WHERE user_id = #{userId}
+    </select>
+    <select id="getId" resultType="java.lang.Integer">
+        SELECT LAST_INSERT_ID()
+    </select>
+    <select id="getById" resultType="com.team.ShopSystem.sys.entity.Shop">
+        SELECT * FROM ss_shop
+        WHERE id = #{id}
+    </select>
+    <select id="getShopNameByShopId" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT shop_name
+        FROM ss_shop
+        WHERE id = #{id}
+    </select>
+</mapper>

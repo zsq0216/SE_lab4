@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.ShopSystem.sys.mapper.TransferRecordsMapper">
+    <select id="get" resultType="com.team.ShopSystem.sys.entity.TransferRecords">
+        SELECT * FROM ss_transfer_records
+        WHERE transfer_name = #{name} OR receive_name = #{name}
+    </select>
+</mapper>
