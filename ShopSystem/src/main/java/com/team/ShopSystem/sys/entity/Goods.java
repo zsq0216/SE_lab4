@@ -35,4 +35,5 @@ public class Goods {
     private float price;
 
     private Integer status;
+    private Integer sales;
 }

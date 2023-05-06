@@ -17,4 +17,11 @@ public class ConstantsProperties {
     public int applyDeleted;
     public int deleted;
     public int rejectDeleted;
+    public int unpaid;
+    public int paid;
+    public int shipped;
+    public int finished;
+    public int cancelled;
+    public int refunding;
+    public int refunded;
 }

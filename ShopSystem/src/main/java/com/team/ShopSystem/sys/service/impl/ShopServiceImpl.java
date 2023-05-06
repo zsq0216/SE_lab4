@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,7 +47,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
     @Autowired
     AdminMapper adminMapper;
     @Override
-    public Result<?> addShop(Shop shop){
+    public Result<?> addShop(Shop shop, LocalDate time){
         if(shopMapper.queryByIdNumber(shop.getIdNumber())>0) {
             return Result.fail(MsgEnum.ERROR_IDNUMBER);
         }
@@ -61,8 +63,8 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
         User user = userMapper.getById(shop.getUserId());
         user.setAccount(user.getAccount() - shop.getFund());
         userMapper.updateById(user);
-        transferRecordsMapper.insert(new TransferRecords("user_"+shop.getUserId(),shop.getFund(),"shop_"+shop.getId()));
-        transferRecordsMapper.insert(new TransferRecords("shop_"+shop.getId(),shop.getFund(),"admin_intermediate"));
+        transferRecordsMapper.insert(new TransferRecords("user_"+shop.getUserId(),shop.getFund(),"shop_"+shop.getId(),time,"apply to open a store"));
+        transferRecordsMapper.insert(new TransferRecords("shop_"+shop.getId(),shop.getFund(),"admin_intermediate",time,"apply to open a store"));
         Admin admin = adminMapper.get();
         admin.setIntermediateAccount(admin.getIntermediateAccount()+shop.getFund());
         adminMapper.updateById(admin);
@@ -74,8 +76,8 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
 
     @Override
     @Transactional
-    public Result<?> approveShop(Shop shop){//其中必须有idNumber和fund
-        transferRecordsMapper.insert(new TransferRecords("admin_intermediate",shop.getFund(),"admin_profit"));
+    public Result<?> approveShop(Shop shop,LocalDate time){//其中必须有idNumber和fund
+        transferRecordsMapper.insert(new TransferRecords("admin_intermediate",shop.getFund(),"admin_profit",time,"agree to open a store"));
         shopMapper.updateStatus(shop.getId(),constants.getApproved());
         Admin admin = adminMapper.get();
         admin.setIntermediateAccount(admin.getIntermediateAccount()- shop.getFund());
@@ -85,12 +87,12 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
     }
 
     @Override
-    public Result<?> disapproveShop(Shop shop){
+    public Result<?> disapproveShop(Shop shop,LocalDate time){
         shopMapper.updateStatus(shop.getId(), constants.getRejected());
         Admin admin = adminMapper.get();
         admin.setIntermediateAccount(admin.getIntermediateAccount()- shop.getFund());
         adminMapper.updateById(admin);
-        transferRecordsMapper.insert(new TransferRecords("admin_intermediate",shop.getFund(),"user_"+shop.getUserId()));
+        transferRecordsMapper.insert(new TransferRecords("admin_intermediate",shop.getFund(),"user_"+shop.getUserId(),time,"disagree to open a store"));
         User user = userMapper.getById(shop.getUserId());
         user.setAccount(user.getAccount()+ shop.getFund());
         userMapper.updateById(user);
@@ -115,14 +117,14 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
     }
 
     @Override
-    public Result<?> approveDeleteShop(Shop shop) {
+    public Result<?> approveDeleteShop(Shop shop,LocalDate time) {
         shopMapper.updateStatus(shop.getId(),constants.getDeleted());
         List<Goods> goods = goodsMapper.getByShopId(shop.getId());
         for (Goods good : goods) {
             goodsService.removeGoods(good.getId());
         }
         User user = userMapper.getById(shop.getUserId());
-        transferRecordsMapper.insert(new TransferRecords("shop_"+shop.getId(),shop.getAccount(),"user_"+user.getId()));
+        transferRecordsMapper.insert(new TransferRecords("shop_"+shop.getId(),shop.getAccount(),"user_"+user.getId(),time,"agree to delete a store"));
         user.setAccount(user.getAccount()+shop.getAccount());
         userService.updateById(user);
         return Result.success("删除商店成功");

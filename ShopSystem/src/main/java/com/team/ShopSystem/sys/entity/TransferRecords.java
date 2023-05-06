@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -34,11 +37,15 @@ public class TransferRecords{
     private String receiveName;
 
     private Integer deleted;
+    private LocalDate time;
+    private String comments;
 
-    public TransferRecords(String transferName, Float amount, String receiveName) {
+    public TransferRecords(String transferName, Float amount, String receiveName,LocalDate time,String comments) {
         this.transferName = transferName;
         this.amount = amount;
         this.receiveName = receiveName;
+        this.time = time;
+        this.comments = comments;
     }
 
     @Override

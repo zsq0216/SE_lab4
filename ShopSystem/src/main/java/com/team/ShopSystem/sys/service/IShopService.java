@@ -4,6 +4,8 @@ import com.team.ShopSystem.common.vo.Result;
 import com.team.ShopSystem.sys.entity.Shop;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,15 +18,15 @@ import java.util.List;
  */
 public interface IShopService extends IService<Shop> {
 
-    Result<?> addShop(Shop shop);
+    Result<?> addShop(Shop shop, LocalDate time);
 
-    Result<?> approveShop(Shop shop);
+    Result<?> approveShop(Shop shop,LocalDate time);
 
-    Result<?> disapproveShop(Shop shop);
+    Result<?> disapproveShop(Shop shop,LocalDate time);
 
     Result<List<Shop>> showUserShop(Integer userId);
 
     Result<?> deleteShop(Shop shop);
 
-    Result<?> approveDeleteShop(Shop shop);
+    Result<?> approveDeleteShop(Shop shop,LocalDate time);
 }

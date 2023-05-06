@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,20 +50,20 @@ public class ShopController {
 
     @PostMapping("/add")
     @ApiOperation("申请开店")
-    public Result<?> addShop(@RequestBody Shop shop){//@RequestBody 将json转换为User对象
-        return shopService.addShop(shop);
+    public Result<?> addShop(@RequestBody Shop shop,@RequestParam LocalDate time){//@RequestBody 将json转换为User对象
+        return shopService.addShop(shop,time);
     }
 
     @PutMapping("/approve")
     @ApiOperation("批准申请")
-    public Result<?> approveShop(@RequestBody Shop shop){//@RequestBody 将json转换为User对象
-        return shopService.approveShop(shop);
+    public Result<?> approveShop(@RequestBody Shop shop,@RequestParam LocalDate time){//@RequestBody 将json转换为User对象
+        return shopService.approveShop(shop,time);
     }
 
     @PutMapping("/disapprove")
     @ApiOperation("拒绝申请")
-    public Result<?> disapproveShop(@RequestBody Shop shop){//@RequestBody 将json转换为User对象
-        return shopService.disapproveShop(shop);
+    public Result<?> disapproveShop(@RequestBody Shop shop,@RequestParam LocalDate time){//@RequestBody 将json转换为User对象
+        return shopService.disapproveShop(shop,time);
     }
 
     @PostMapping("/delete")
@@ -72,8 +74,8 @@ public class ShopController {
 
     @PostMapping("/approveDelete")
     @ApiOperation("批准删除商店")
-    public Result<?> approveDeleteShop(@RequestBody Shop shop){
-        Result<?> result = shopService.approveDeleteShop(shop);
+    public Result<?> approveDeleteShop(@RequestBody Shop shop,@RequestParam LocalDate time){
+        Result<?> result = shopService.approveDeleteShop(shop,time);
         shop.setAccount(0F);
         shopService.updateById(shop);
         return result;
