@@ -5,4 +5,12 @@
         SELECT * FROM ss_transfer_records
         WHERE transfer_name = #{name} OR receive_name = #{name}
     </select>
+
+    <select id="getByDateRange" resultType="com.team.ShopSystem.sys.entity.TransferRecords">
+        SELECT * FROM ss_transfer_records
+        WHERE time >= #{startDate}
+        AND time &lt;= #{endDate}
+        AND (transfer_name = #{name} OR receive_name = #{name})
+        ORDER BY time DESC
+    </select>
 </mapper>
