@@ -2,7 +2,6 @@ package com.team.ShopSystem.sys.mapper;
 
 import com.team.ShopSystem.sys.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 
 

@@ -1,10 +1,12 @@
+
+
 server:
   port: 9999
 
 spring:
   datasource:
     username: root
-    password: xxplqbdyrywtk
+    password: 123456
     url: jdbc:mysql://localhost:3306/shopSystem
   redis:
     port: 6379
@@ -33,6 +35,14 @@ constants:
   applyDeleted: 3
   deleted: 4
   rejectDeleted: 5
+  unpaid: 0
+  paid: 1
+  shipped: 2
+  finished: 3
+  cancelled: 4
+  refunding: 5
+  refunded: 6
+
 
 prop:
-  upload-folder: /Users/songwenyan/FduCourses/SoftwareEngineering/code/Lab3/ShopSystem/uploadImage/
+  upload-folder: /Users/libo/SE_SOFT130006.01/ShopSystem/uploadImage/

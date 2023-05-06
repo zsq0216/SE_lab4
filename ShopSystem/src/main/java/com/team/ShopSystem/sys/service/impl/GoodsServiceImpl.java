@@ -104,6 +104,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         goods.setDescription(goodsUpdate.getDescription());
         goods.setPrice(goodsUpdate.getPrice());
         goods.setStatus(8);
+        goods.setSales(goodsMapper.getById(goods.getId()).getSales());
         return goods;
     }
 
