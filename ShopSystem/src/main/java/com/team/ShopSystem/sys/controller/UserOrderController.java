@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -151,49 +152,89 @@ public class UserOrderController {
     @ApiOperation("返回所有待支付订单")
     @GetMapping("/showUnpaidOrder")
     public Result<?> showUnpaidOrder(@RequestParam Integer userId){
-        return Result.success(userOrderMapper.selectByUserIdAndStatus(userId,constants.getUnpaid()));
+        List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getUnpaid());
+        List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
+        for (UserOrder userOrder : userOrders) {
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+        }
+        return Result.success(userOrderPluses);
     }
 
     @ApiOperation("返回所有已支付订单")
     @GetMapping("/showPaidOrder")
     public Result<?> showPaidOrder(@RequestParam Integer userId){
-        return Result.success(userOrderMapper.selectByUserIdAndStatus(userId,constants.getPaid()));
+        List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getPaid());
+        List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
+        for (UserOrder userOrder : userOrders) {
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+        }
+        return Result.success(userOrderPluses);
     }
 
     @ApiOperation("返回所有待收货订单")
     @GetMapping("/showShippedOrder")
     public Result<?> showShippedOrder(@RequestParam Integer userId){
-        return Result.success(userOrderMapper.selectByUserIdAndStatus(userId,constants.getShipped()));
+        List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getShipped());
+        List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
+        for (UserOrder userOrder : userOrders) {
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+        }
+        return Result.success(userOrderPluses);
     }
 
     @ApiOperation("返回所有已完成订单")
     @GetMapping("/showFinishedOrder")
     public Result<?> showFinishedOrder(@RequestParam Integer userId){
-        return Result.success(userOrderMapper.selectByUserIdAndStatus(userId,constants.getFinished()));
+        List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getFinished());
+        List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
+        for (UserOrder userOrder : userOrders) {
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+        }
+        return Result.success(userOrderPluses);
     }
 
     @ApiOperation("返回所有已撤销订单")
     @GetMapping("/showCancelledOrder")
     public Result<?> showCancelledOrder(@RequestParam Integer userId){
-        return Result.success(userOrderMapper.selectByUserIdAndStatus(userId,constants.getCancelled()));
+        List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getCancelled());
+        List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
+        for (UserOrder userOrder : userOrders) {
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+        }
+        return Result.success(userOrderPluses);
     }
 
     @ApiOperation("返回所有待退款订单")
     @GetMapping("/showRefundingOrder")
     public Result<?> showRefundingOrder(@RequestParam Integer userId){
-        return Result.success(userOrderMapper.selectByUserIdAndStatus(userId,constants.getRefunding()));
+        List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getRefunding());
+        List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
+        for (UserOrder userOrder : userOrders) {
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+        }
+        return Result.success(userOrderPluses);
     }
 
     @ApiOperation("返回所有已退款订单")
     @GetMapping("/showRefundedOrder")
     public Result<?> showRefundedOrder(@RequestParam Integer userId){
-        return Result.success(userOrderMapper.selectByUserIdAndStatus(userId,constants.getRefunded()));
+        List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getRefunded());
+        List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
+        for (UserOrder userOrder : userOrders) {
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+        }
+        return Result.success(userOrderPluses);
     }
 
     @ApiOperation("返回某一店铺所有待退款订单")
     @GetMapping("/showShopRefundingOrder")
     public Result<?> showShopRefundingOrder(@RequestParam Integer shopId){
-        return Result.success(userOrderMapper.selectByShopIdAndStatus(shopId,constants.getRefunding()));
+        List<UserOrder> userOrders = userOrderMapper.selectByShopIdAndStatus(shopId,constants.getRefunding());
+        List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
+        for (UserOrder userOrder : userOrders) {
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+        }
+        return Result.success(userOrderPluses);
     }
 
     @ApiOperation("删除订单")
