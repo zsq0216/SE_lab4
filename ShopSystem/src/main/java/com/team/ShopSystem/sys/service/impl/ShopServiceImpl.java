@@ -54,13 +54,13 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
         if(shopMapper.queryByShopName(shop.getShopName())>0) {
             return Result.fail(MsgEnum.ERROR_SHOPNAME);
         }
-        if(shop.getFund() > (userMapper.getById(shop.getUserId())).getAccount()){
+        if(shop.getFund() > (userMapper.selectById(shop.getUserId())).getAccount()){
             return Result.fail(MsgEnum.ERROR_INSUFFICIENTFUNDS);
         }
         shopMapper.insert(shop);
         Integer id = shopMapper.getId();
         shop.setId(id);
-        User user = userMapper.getById(shop.getUserId());
+        User user = userMapper.selectById(shop.getUserId());
         user.setAccount(user.getAccount() - shop.getFund());
         userMapper.updateById(user);
         transferRecordsMapper.insert(new TransferRecords("user_"+shop.getUserId(),shop.getFund(),"shop_"+shop.getId(),time,"apply to open a store"));
@@ -93,7 +93,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
         admin.setIntermediateAccount(admin.getIntermediateAccount()- shop.getFund());
         adminMapper.updateById(admin);
         transferRecordsMapper.insert(new TransferRecords("admin_intermediate",shop.getFund(),"user_"+shop.getUserId(),time,"disagree to open a store"));
-        User user = userMapper.getById(shop.getUserId());
+        User user = userMapper.selectById(shop.getUserId());
         user.setAccount(user.getAccount()+ shop.getFund());
         userMapper.updateById(user);
         return Result.success("审核不通过");
@@ -123,7 +123,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
         for (Goods good : goods) {
             goodsService.removeGoods(good.getId());
         }
-        User user = userMapper.getById(shop.getUserId());
+        User user = userMapper.selectById(shop.getUserId());
         transferRecordsMapper.insert(new TransferRecords("shop_"+shop.getId(),shop.getAccount(),"user_"+user.getId(),time,"agree to delete a store"));
         user.setAccount(user.getAccount()+shop.getAccount());
         userService.updateById(user);

@@ -16,7 +16,7 @@ public class CodeGenerator {
         String basePackage = "com.team.ShopSystem";
         String moduleName = "sys";
         String mapperLocation = "/Users/xuboya/Desktop/SS/ShopSystem/src/main/resources" + moduleName;
-        String tableName = "ss_merchant_order";
+        String tableName = "ss_goods_category";
         String tablePrefix = "ss_";
         FastAutoGenerator.create(url, username, password)
                 .globalConfig(builder -> {

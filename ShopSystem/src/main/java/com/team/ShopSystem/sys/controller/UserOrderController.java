@@ -63,7 +63,7 @@ public class UserOrderController {
         for (UserOrder userOrder : userOrders) {
             order_amount += userOrder.getTotalPrice();
         }
-        User user = userMapper.getById(userOrders.get(0).getUserId());
+        User user = userMapper.selectById(userOrders.get(0).getUserId());
         if(order_amount > user.getAccount()){
             return Result.fail(MsgEnum.ERROR_INSUFFICIENTFUNDS);
         }
@@ -143,7 +143,7 @@ public class UserOrderController {
         Admin admin = adminMapper.get();
         admin.setIntermediateAccount(admin.getIntermediateAccount() - userOrder.getTotalPrice());
         adminMapper.updateById(admin);
-        User user = userMapper.getById(userOrder.getUserId());
+        User user = userMapper.selectById(userOrder.getUserId());
         user.setAccount(user.getAccount() + userOrder.getTotalPrice());
         userMapper.updateById(user);
         return Result.success("退货退款成功");

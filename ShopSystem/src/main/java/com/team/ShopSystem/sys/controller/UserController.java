@@ -40,7 +40,7 @@ public class UserController {
     @PutMapping("/update")
     @ApiOperation("用户修改信息")
     public Result<?> updateUser(@RequestBody User user){//@RequestBody 将json转换为User对象
-        User u = userMapper.getById(user.getId());
+        User u = userMapper.selectById(user.getId());
         if(u.getUsername().equals(user.getUsername())){
             user.setUsername(null);
         }
@@ -61,14 +61,14 @@ public class UserController {
 
     @PostMapping("/getAccount")
     public Result<?> getAccount(@RequestBody User user){
-        User u = userMapper.getById(user.getId());
+        User u = userMapper.selectById(user.getId());
         return Result.success(u.getAccount(),"返回账户余额成功");
     }
 
     @PutMapping("/topUpAccount")
     @ApiOperation("账户充值")
     public Result<?> topUpAccount(@RequestParam Float money,@RequestParam Integer userId){
-        User user = userMapper.getById(userId);
+        User user = userMapper.selectById(userId);
         user.setAccount(user.getAccount()+money);
         userService.updateById(user);
         return Result.success(user.getAccount(),"账户充值成功");
