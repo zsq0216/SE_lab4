@@ -46,6 +46,8 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
     GoodsMapper goodsMapper;
     @Autowired
     AdminMapper adminMapper;
+    @Autowired
+    UserOrderMapper userOrderMapper;
     @Override
     public Result<?> addShop(Shop shop, LocalDate time){
         if(shopMapper.queryByIdNumber(shop.getIdNumber())>0) {
@@ -110,7 +112,9 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
 
     @Override
     public Result<?> deleteShop(Shop shop) {
-        //商品订单未完成判断，返回ERROR_DELETESHOP（但现在还没有下单操作，不需要）
+        if(userOrderMapper.queryByShopId(shop.getId())>0){
+            return Result.fail(MsgEnum.ERROR_DELETESHOP);
+        }
 
         shopMapper.updateStatus(shop.getId(),constants.getApplyDeleted());
         return Result.success("申请删除商店成功");

@@ -10,4 +10,9 @@
         SELECT * FROM ss_user_order
         WHERE shop_id=#{shopId} AND status=#{status} AND deleted = 0
     </select>
+
+    <select id="queryByShopId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM ss_user_order
+        WHERE shop_id =#{shopId} AND (status = 1 OR status = 2 OR status = 5)
+    </select>
 </mapper>
