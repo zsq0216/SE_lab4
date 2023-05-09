@@ -12,7 +12,8 @@ public enum MsgEnum {
     ERROR_CLASS(20008,"用户类错误"),
     ERROR_SHOPNAME(20009,"店铺名已被注册过"),
     ERROR_INSUFFICIENTFUNDS(20010,"账户余额不足"),
-    ERROR_DELETESHOP(20011,"有尚未完成的订单");
+    ERROR_DELETESHOP(20011,"有尚未完成的订单"),
+    ERROR_EVENT(20012,"商店已申请活动");
     private Integer code;
     private String message;
 

@@ -42,6 +42,10 @@ public class EventController {
     EventApplyMapper eventApplyMapper;
     @Autowired
     ConstantsProperties constants;
+    @Autowired
+    GoodsMapper goodsMapper;
+    @Autowired
+    GoodsCategoryMapper goodsCategoryMapper;
     @ApiOperation("开启活动")
     @PostMapping("/openEvent")
     public Result<?> openEvent(@RequestBody Event event, @RequestParam String sdate){
@@ -68,6 +72,9 @@ public class EventController {
     @ApiOperation("申请活动")
     @PutMapping("/applyEvent")
     public Result<?> applyEvent(@RequestParam Integer shopId,@RequestParam Integer eventId){
+        if(eventApplyMapper.queryByShopId(shopId) > 0){
+            return Result.fail(MsgEnum.ERROR_EVENT);
+        }
         eventApplyMapper.insert(new EventApply(eventId,shopId));
         return Result.success("申请活动成功");
     }
@@ -77,6 +84,44 @@ public class EventController {
     public Result<?> approveApply(@RequestParam Integer applyId){
         EventApply eventApply = eventApplyMapper.selectById(applyId);
         eventApply.setStatus(constants.getApproved());
-        return null;
+        eventApplyMapper.updateById(eventApply);
+        List<String> eventCategory = eventCategoryMapper.selectByEventId(eventApply.getId());
+        List<Goods> goods = goodsMapper.getByShopId(eventApply.getShopId());
+        for (Goods good : goods) {
+            List<String> goodCategory = goodsCategoryMapper.getByGoodsId(good.getId());
+            int i,j;
+            for (i = 0;i<goodCategory.size();i++) {
+                for(j = 0;j<eventCategory.size();j++){
+                    if(goodCategory.get(i).equals(eventCategory.get(j))){
+                        break;
+                    }
+                }
+                if(j!=eventCategory.size()){
+                    break;
+                }
+            }
+            if(i!=goodCategory.size()){
+                good.setEventId(eventApply.getId());
+                goodsMapper.updateById(good);
+            }
+        }
+        return Result.success("允许商店活动");
     }
+
+    @ApiOperation("拒绝商店活动申请")
+    @PutMapping("/disapproveApply")
+    public Result<?> disapproveApply(@RequestParam Integer applyId){
+        EventApply eventApply = eventApplyMapper.selectById(applyId);
+        eventApply.setStatus(constants.getRejected());
+        eventApplyMapper.updateById(eventApply);
+        return Result.success("拒绝商店活动");
+    }
+
+    @ApiOperation("显示所有活动")
+    @GetMapping("/show")
+    public Result<?> show(){
+        return Result.success(eventMapper.show(),"显示所有商城活动");
+    }
+
+    //@ApiOperation("显示参加某一活动的所有商品")
 }

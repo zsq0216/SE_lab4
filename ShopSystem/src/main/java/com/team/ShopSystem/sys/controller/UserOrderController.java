@@ -1,10 +1,13 @@
 package com.team.ShopSystem.sys.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.team.ShopSystem.common.vo.MsgEnum;
 import com.team.ShopSystem.config.ConstantsProperties;
 import com.team.ShopSystem.sys.entity.*;
 import com.team.ShopSystem.sys.mapper.*;
 import com.team.ShopSystem.sys.service.IMerchantOrderService;
+import com.team.ShopSystem.sys.service.IUserOrderService;
 import io.swagger.annotations.Api;
 import com.team.ShopSystem.common.vo.Result;
 import io.swagger.annotations.ApiOperation;
@@ -49,6 +52,8 @@ public class UserOrderController {
     MerchantOrderMapper merchantOrderMapper;
     @Autowired
     GoodsImageMapper goodsImageMapper;
+    @Autowired
+    IUserOrderService userOrderService;
 
     @ApiOperation("下单操作")
     @PostMapping("/order")
@@ -154,8 +159,13 @@ public class UserOrderController {
 
     @ApiOperation("返回所有待支付订单")
     @GetMapping("/showUnpaidOrder")
-    public Result<?> showUnpaidOrder(@RequestParam Integer userId){
-        List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getUnpaid());
+    public Result<?> showUnpaidOrder(@RequestParam Integer userId,@RequestParam Integer pageNo,@RequestParam Integer pageSize){
+        Page<UserOrder> page = new Page<>(pageNo,pageSize);
+        QueryWrapper<UserOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", userId);
+        wrapper.eq("status",constants.getUnpaid());
+        userOrderService.page(page,wrapper);
+        List<UserOrder> userOrders = page.getRecords();
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
@@ -167,8 +177,13 @@ public class UserOrderController {
 
     @ApiOperation("返回所有已支付订单")
     @GetMapping("/showPaidOrder")
-    public Result<?> showPaidOrder(@RequestParam Integer userId){
-        List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getPaid());
+    public Result<?> showPaidOrder(@RequestParam Integer userId,@RequestParam Integer pageNo,@RequestParam Integer pageSize){
+        Page<UserOrder> page = new Page<>(pageNo,pageSize);
+        QueryWrapper<UserOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", userId);
+        wrapper.eq("status",constants.getPaid());
+        userOrderService.page(page,wrapper);
+        List<UserOrder> userOrders = page.getRecords();
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
@@ -179,8 +194,13 @@ public class UserOrderController {
 
     @ApiOperation("返回所有待收货订单")
     @GetMapping("/showShippedOrder")
-    public Result<?> showShippedOrder(@RequestParam Integer userId){
-        List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getShipped());
+    public Result<?> showShippedOrder(@RequestParam Integer userId,@RequestParam Integer pageNo,@RequestParam Integer pageSize){
+        Page<UserOrder> page = new Page<>(pageNo,pageSize);
+        QueryWrapper<UserOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", userId);
+        wrapper.eq("status",constants.getShipped());
+        userOrderService.page(page,wrapper);
+        List<UserOrder> userOrders = page.getRecords();
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
@@ -192,8 +212,13 @@ public class UserOrderController {
 
     @ApiOperation("返回所有已完成订单")
     @GetMapping("/showFinishedOrder")
-    public Result<?> showFinishedOrder(@RequestParam Integer userId){
-        List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getFinished());
+    public Result<?> showFinishedOrder(@RequestParam Integer userId,@RequestParam Integer pageNo,@RequestParam Integer pageSize){
+        Page<UserOrder> page = new Page<>(pageNo,pageSize);
+        QueryWrapper<UserOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", userId);
+        wrapper.eq("status",constants.getFinished());
+        userOrderService.page(page,wrapper);
+        List<UserOrder> userOrders = page.getRecords();
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
@@ -205,8 +230,13 @@ public class UserOrderController {
 
     @ApiOperation("返回所有已撤销订单")
     @GetMapping("/showCancelledOrder")
-    public Result<?> showCancelledOrder(@RequestParam Integer userId){
-        List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getCancelled());
+    public Result<?> showCancelledOrder(@RequestParam Integer userId,@RequestParam Integer pageNo,@RequestParam Integer pageSize){
+        Page<UserOrder> page = new Page<>(pageNo,pageSize);
+        QueryWrapper<UserOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", userId);
+        wrapper.eq("status",constants.getCancelled());
+        userOrderService.page(page,wrapper);
+        List<UserOrder> userOrders = page.getRecords();
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
@@ -218,8 +248,13 @@ public class UserOrderController {
 
     @ApiOperation("返回所有待退款订单")
     @GetMapping("/showRefundingOrder")
-    public Result<?> showRefundingOrder(@RequestParam Integer userId){
-        List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getRefunding());
+    public Result<?> showRefundingOrder(@RequestParam Integer userId,@RequestParam Integer pageNo,@RequestParam Integer pageSize){
+        Page<UserOrder> page = new Page<>(pageNo,pageSize);
+        QueryWrapper<UserOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", userId);
+        wrapper.eq("status",constants.getRefunding());
+        userOrderService.page(page,wrapper);
+        List<UserOrder> userOrders = page.getRecords();
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
@@ -231,8 +266,13 @@ public class UserOrderController {
 
     @ApiOperation("返回所有已退款订单")
     @GetMapping("/showRefundedOrder")
-    public Result<?> showRefundedOrder(@RequestParam Integer userId){
-        List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getRefunded());
+    public Result<?> showRefundedOrder(@RequestParam Integer userId,@RequestParam Integer pageNo,@RequestParam Integer pageSize){
+        Page<UserOrder> page = new Page<>(pageNo,pageSize);
+        QueryWrapper<UserOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", userId);
+        wrapper.eq("status",constants.getRefunded());
+        userOrderService.page(page,wrapper);
+        List<UserOrder> userOrders = page.getRecords();
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
@@ -244,8 +284,13 @@ public class UserOrderController {
 
     @ApiOperation("返回某一店铺所有待退款订单")
     @GetMapping("/showShopRefundingOrder")
-    public Result<?> showShopRefundingOrder(@RequestParam Integer shopId){
-        List<UserOrder> userOrders = userOrderMapper.selectByShopIdAndStatus(shopId,constants.getRefunding());
+    public Result<?> showShopRefundingOrder(@RequestParam Integer shopId,@RequestParam Integer pageNo,@RequestParam Integer pageSize){
+        Page<UserOrder> page = new Page<>(pageNo,pageSize);
+        QueryWrapper<UserOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("shop_id", shopId);
+        wrapper.eq("status",constants.getRefunding());
+        userOrderService.page(page,wrapper);
+        List<UserOrder> userOrders = page.getRecords();
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());

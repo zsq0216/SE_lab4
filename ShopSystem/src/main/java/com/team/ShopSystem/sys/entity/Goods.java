@@ -39,4 +39,5 @@ public class Goods {
     private Integer sales;
     @TableField(exist = false)
     private List<String> category;
+    private Integer eventId;
 }

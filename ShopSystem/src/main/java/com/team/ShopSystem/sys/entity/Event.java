@@ -48,7 +48,7 @@ public class Event implements Serializable {
 
     private Integer shopProfit;
 
-    private Boolean status;
+    private Integer status;
 
     @TableField(exist = false)
     private List<String> category;

@@ -3,6 +3,8 @@ package com.team.ShopSystem.sys.mapper;
 import com.team.ShopSystem.sys.entity.Event;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface EventMapper extends BaseMapper<Event> {
     Integer getLastId();
+    List<Event> show();
 }

@@ -3,4 +3,8 @@
     <select id="getLastId" resultType="java.lang.Integer">
         SELECT LAST_INSERT_ID()
     </select>
+    <select id="show" resultType="com.team.ShopSystem.sys.entity.Event">
+        SELECT * FROM ss_event
+        WHERE status != 2
+    </select>
 </mapper>
