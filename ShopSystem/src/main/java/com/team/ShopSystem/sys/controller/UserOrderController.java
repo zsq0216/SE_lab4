@@ -47,6 +47,8 @@ public class UserOrderController {
     GoodsMapper goodsMapper;
     @Autowired
     MerchantOrderMapper merchantOrderMapper;
+    @Autowired
+    GoodsImageMapper goodsImageMapper;
 
     @ApiOperation("下单操作")
     @PostMapping("/order")
@@ -156,7 +158,9 @@ public class UserOrderController {
         List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getUnpaid());
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+            Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
+            goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
         }
         return Result.success(userOrderPluses);
     }
@@ -167,8 +171,9 @@ public class UserOrderController {
         List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getPaid());
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
-        }
+            Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
+            goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));        }
         return Result.success(userOrderPluses);
     }
 
@@ -178,7 +183,9 @@ public class UserOrderController {
         List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getShipped());
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+            Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
+            goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
         }
         return Result.success(userOrderPluses);
     }
@@ -189,7 +196,9 @@ public class UserOrderController {
         List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getFinished());
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+            Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
+            goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
         }
         return Result.success(userOrderPluses);
     }
@@ -200,7 +209,9 @@ public class UserOrderController {
         List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getCancelled());
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+            Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
+            goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
         }
         return Result.success(userOrderPluses);
     }
@@ -211,7 +222,9 @@ public class UserOrderController {
         List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getRefunding());
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+            Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
+            goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
         }
         return Result.success(userOrderPluses);
     }
@@ -222,7 +235,9 @@ public class UserOrderController {
         List<UserOrder> userOrders = userOrderMapper.selectByUserIdAndStatus(userId,constants.getRefunded());
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+            Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
+            goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
         }
         return Result.success(userOrderPluses);
     }
@@ -233,7 +248,9 @@ public class UserOrderController {
         List<UserOrder> userOrders = userOrderMapper.selectByShopIdAndStatus(shopId,constants.getRefunding());
         List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
         for (UserOrder userOrder : userOrders) {
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goodsMapper.selectById(userOrder.getGoodsId())));
+            Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
+            goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
         }
         return Result.success(userOrderPluses);
     }
