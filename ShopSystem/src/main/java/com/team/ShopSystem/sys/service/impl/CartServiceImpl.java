@@ -59,4 +59,16 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
         return Result.success("清空购物车！");
     }
 
+    @Override
+    public Result<?> addMulti2cart(Integer userId, Integer goodsId, Integer quantity) {
+        Integer cartId=cartMapper.getCartByUserId(userId);
+        if(cartGoodsMapper.queryById(cartId,goodsId)>0){
+            cartGoodsMapper.updateQuantity(cartId,goodsId,quantity);
+        }
+        else{
+            cartGoodsMapper.insert(new CartGoods(cartId,goodsId,quantity));
+        }
+        return Result.success("添加商品成功");
+    }
+
 }

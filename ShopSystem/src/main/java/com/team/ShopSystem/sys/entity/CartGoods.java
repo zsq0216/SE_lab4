@@ -32,7 +32,11 @@ public class CartGoods {
         this.cartId=cartId;
         this.goodsId=goodsId;
     }
-
+    public CartGoods(Integer cartId, Integer goodsId,Integer quantity) {
+        this.cartId=cartId;
+        this.goodsId=goodsId;
+        this.goodsQuantity=quantity;
+    }
     public Integer getId() {
         return id;
     }
