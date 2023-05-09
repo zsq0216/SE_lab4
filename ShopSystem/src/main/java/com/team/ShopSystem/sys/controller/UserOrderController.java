@@ -47,6 +47,7 @@ public class UserOrderController {
     GoodsMapper goodsMapper;
     @Autowired
     MerchantOrderMapper merchantOrderMapper;
+
     @ApiOperation("下单操作")
     @PostMapping("/order")
     public Result<?> order(@RequestBody List<UserOrder> userOrders){
