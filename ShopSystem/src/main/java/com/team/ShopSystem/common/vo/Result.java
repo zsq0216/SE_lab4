@@ -15,6 +15,10 @@ public class Result<T> {
     private String message;
     private T data;
 
+    public T getData() {
+        return data;
+    }
+
     public static<T> Result<T> success(){
         return new Result<>(SUCCESS.getCode(),SUCCESS.getMessage(),null);
     }
@@ -41,5 +45,7 @@ public class Result<T> {
     public static<T> Result<T> fail(String message){
         return new Result<>(FAIL.getCode(), message,null);
     }
-
+    public static<T> Result<T> fail(MsgEnum msgEnum,T data){
+        return new Result<>(msgEnum.getCode(),msgEnum.getMessage(),data);
+    }
 }

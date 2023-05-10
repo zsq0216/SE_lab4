@@ -4,4 +4,9 @@
         SELECT COUNT(*) FROM ss_event_apply
         WHERE shop_id = #{shopId} AND status != 2
     </select>
+
+    <select id="selectByEventId" resultType="com.team.ShopSystem.sys.entity.EventApply">
+        SELECT * FROM ss_event_apply
+        WHERE event_id = #{eventId}
+    </select>
 </mapper>

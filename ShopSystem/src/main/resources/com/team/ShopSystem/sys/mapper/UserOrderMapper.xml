@@ -15,4 +15,8 @@
         SELECT COUNT(*) FROM ss_user_order
         WHERE shop_id =#{shopId} AND (status = 1 OR status = 2 OR status = 5)
     </select>
+    <select id="getMonthSalesByShopId" resultType="java.lang.Integer">
+        SELECT SUM(quantity) FROM ss_user_order
+        WHERE shop_id=#{shopId} AND status=3 AND date >= #{date}
+    </select>
 </mapper>
