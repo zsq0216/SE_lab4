@@ -1,0 +1,11 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.ShopSystem.sys.mapper.EventFundsMapper">
+    <select id="selectFundsByEventId" resultType="java.lang.Float">
+        SELECT funds from ss_event_funds
+        WHERE event_id = #{eventId}
+    </select>
+    <select id="selectByEventId" resultType="com.team.ShopSystem.sys.entity.EventFunds">
+        SELECT * from ss_event_funds
+        WHERE event_id = #{eventId}
+    </select>
+</mapper>

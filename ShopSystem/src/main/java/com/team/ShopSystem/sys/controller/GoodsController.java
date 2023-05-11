@@ -3,10 +3,10 @@ package com.team.ShopSystem.sys.controller;
 import com.team.ShopSystem.common.vo.Result;
 import com.team.ShopSystem.config.ConstantsProperties;
 import com.team.ShopSystem.sys.entity.Goods;
+import com.team.ShopSystem.sys.entity.GoodsCategory;
+import com.team.ShopSystem.sys.entity.GoodsPlus;
 import com.team.ShopSystem.sys.entity.GoodsUpdate;
-import com.team.ShopSystem.sys.mapper.GoodsImageMapper;
-import com.team.ShopSystem.sys.mapper.GoodsMapper;
-import com.team.ShopSystem.sys.mapper.GoodsUpdateMapper;
+import com.team.ShopSystem.sys.mapper.*;
 import com.team.ShopSystem.sys.service.IGoodsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -47,6 +48,11 @@ public class GoodsController {
 
     @Autowired
     ConstantsProperties constants;
+
+    @Autowired
+    GoodsCategoryMapper goodsCategoryMapper;
+    @Autowired
+    EventMapper eventMapper;
 
     @Value("${prop.upload-folder}")
     private String UPLOAD_FOLDER;
@@ -96,6 +102,7 @@ public class GoodsController {
         List<Goods> list = goodsMapper.getByStatus(constants.unapproved);
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
         }
         return Result.success(list);
     }
@@ -106,6 +113,7 @@ public class GoodsController {
         List<Goods> list = goodsMapper.getByStatus(7);
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
         }
         return Result.success(list);
     }
@@ -124,6 +132,7 @@ public class GoodsController {
         List<Goods> list = goodsMapper.getByStatus(1);
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
         }
         return Result.success(list);
     }
@@ -133,6 +142,7 @@ public class GoodsController {
         List<Goods> list = goodsMapper.getByStatus(2);
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
         }
         return Result.success(list);
     }
@@ -142,6 +152,7 @@ public class GoodsController {
         List<Goods> list = goodsMapper.getByStatus(8);
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
         }
         return Result.success(list);
     }
@@ -151,6 +162,7 @@ public class GoodsController {
         List<Goods> list = goodsMapper.getByStatus(9);
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
         }
         return Result.success(list);
     }
@@ -161,6 +173,7 @@ public class GoodsController {
         List<Goods> list = goodsMapper.getByShopId(shopId);
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
         }
         return Result.success(list);
     }
@@ -171,6 +184,7 @@ public class GoodsController {
         List<Goods> list = goodsMapper.getByShopStatus(shopId,0);
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
         }
         return Result.success(list);
     }
@@ -181,6 +195,7 @@ public class GoodsController {
         List<Goods> list = goodsMapper.getByShopStatus(shopId,1);
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
         }
         return Result.success(list);
     }
@@ -191,6 +206,7 @@ public class GoodsController {
         List<Goods> list = goodsMapper.getByShopStatus(shopId,2);
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
         }
         return Result.success(list);
     }
@@ -201,6 +217,7 @@ public class GoodsController {
         List<Goods> list = goodsMapper.getByShopStatus(shopId,7);
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
         }
         return Result.success(list);
     }
@@ -210,6 +227,7 @@ public class GoodsController {
         List<Goods> list = goodsMapper.getByShopStatus(shopId,8);
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
         }
         return Result.success(list);
     }
@@ -219,6 +237,7 @@ public class GoodsController {
         List<Goods> list = goodsMapper.getByShopStatus(shopId,9);
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
         }
         return Result.success(list);
     }
@@ -229,28 +248,35 @@ public class GoodsController {
         List<Goods> list = goodsMapper.getByShopStatus(shopId,5);
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
         }
         return Result.success(list);
     }
 
     @GetMapping("/showAllApprovedGoods")
     @ApiOperation("显示所有上架商品，给用户看")
-    public Result<List<Goods>> showAllApprovedGoods(){
+    public Result<List<GoodsPlus>> showAllApprovedGoods(){
         List<Goods> list = goodsMapper.getByStatus(constants.approved);
+        List<GoodsPlus> plusList =new ArrayList<>();
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
+            plusList.add(new GoodsPlus(goods,eventMapper.selectById(goods.getEventId())));
         }
-        return Result.success(list);
+        return Result.success(plusList);
     }
 
     @GetMapping("/showShopApprovedGoods")
     @ApiOperation("显示某店铺上架商品，给用户看")
-    public Result<List<Goods>> showShopApprovedGoods(@RequestParam Integer shopId){
+    public Result<List<GoodsPlus>> showShopApprovedGoods(@RequestParam Integer shopId){
         List<Goods> list = goodsMapper.getByShopStatus(shopId,constants.approved);
+        List<GoodsPlus> plusList =new ArrayList<>();
         for (Goods goods : list) {
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
+            plusList.add(new GoodsPlus(goods,eventMapper.selectById(goods.getEventId())));
         }
-        return Result.success(list);
+        return Result.success(plusList);
     }
 
     @PostMapping("/uploadImg")

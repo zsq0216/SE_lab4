@@ -4,6 +4,8 @@ import com.team.ShopSystem.sys.entity.UserOrder;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,5 +19,7 @@ import java.util.List;
 public interface UserOrderMapper extends BaseMapper<UserOrder> {
     List<UserOrder> selectByUserIdAndStatus(@Param("userId") Integer userId, @Param("status") Integer status);
     List<UserOrder> selectByShopIdAndStatus(@Param("shopId") Integer shopId, @Param("status") Integer status);
+    Integer queryByShopId(@Param("shopId") Integer shopId);
+    Integer getMonthSalesByShopId(@Param("shopId")Integer shopId, @Param("date") Date date);
 
 }
