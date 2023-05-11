@@ -1,14 +1,19 @@
 package com.team.ShopSystem.sys.controller;
 
 import com.team.ShopSystem.common.vo.Result;
+import com.team.ShopSystem.sys.entity.DeliveryAddress;
 import com.team.ShopSystem.sys.entity.User;
+import com.team.ShopSystem.sys.mapper.DeliveryAddressMapper;
 import com.team.ShopSystem.sys.mapper.UserMapper;
 import com.team.ShopSystem.sys.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Api(tags = {"用户接口列表"})
@@ -23,6 +28,8 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private DeliveryAddressMapper deliveryAddressMapper;
     @PostMapping
     @ApiOperation("用户注册")
     public Result<?> addUser(@RequestBody User user){//@RequestBody 将json转换为User对象
@@ -79,5 +86,30 @@ public class UserController {
     public Result<User> getUserById(@RequestBody User u){
         User user = userMapper.selectById(u.getId());
         return Result.success(user);
+    }
+
+    @PostMapping("/addDeliveryAddress")
+    @ApiOperation("添加收货地址")
+    public Result<?> addDeliveryAddress(@RequestBody DeliveryAddress deliveryAddress){
+        deliveryAddressMapper.insert(deliveryAddress);
+        return Result.success("添加成功");
+    }
+    @DeleteMapping("/deleteDeliveryAddress")
+    @ApiOperation("删除收货地址")
+    public Result<?> deleteDeliveryAddress(@RequestParam Integer id){
+        deliveryAddressMapper.deleteById(id);
+        return Result.success("删除成功");
+    }
+    @GetMapping("/showPersonalDeliveryAddress")
+    @ApiOperation("显示个人收货地址")
+    public Result<List<DeliveryAddress>> showPersonalDeliveryAddress(@RequestParam Integer userId){
+        List<DeliveryAddress> list=deliveryAddressMapper.getByUserId(userId);
+        return Result.success(list);
+    }
+    @PutMapping("/updateDeliveryAddress")
+    @ApiOperation("修改收货地址")
+    public Result<List<DeliveryAddress>> updateDeliveryAddress(@RequestBody DeliveryAddress deliveryAddress){
+        deliveryAddressMapper.updateById(deliveryAddress);
+        return Result.success("修改成功");
     }
 }

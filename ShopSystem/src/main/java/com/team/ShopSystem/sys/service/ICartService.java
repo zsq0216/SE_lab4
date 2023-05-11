@@ -17,4 +17,6 @@ public interface ICartService extends IService<Cart> {
     Result<?> deleteBatch(Integer userId, Integer goodsId);
 
     Result<?> deleteAll(Integer userId);
+
+    Result<?> addMulti2cart(Integer userId, Integer goodsId, Integer quantity);
 }
