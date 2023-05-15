@@ -18,4 +18,5 @@ import java.util.List;
 public interface EventApplyMapper extends BaseMapper<EventApply> {
     Integer queryByShopId(@Param("shopId")Integer shopId);
     List<EventApply> selectByEventId(@Param("eventId")Integer eventId);
+    List<EventApply> selectByStatus(@Param("status")Integer status);
 }

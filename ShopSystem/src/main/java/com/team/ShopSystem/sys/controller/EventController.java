@@ -161,4 +161,5 @@ public class EventController {
     public Result<?> showGoods(@RequestParam Integer eventId){
         return Result.success(goodsMapper.getByEventId(eventId),"显示所有参加某一活动的商品");
     }
+
 }
