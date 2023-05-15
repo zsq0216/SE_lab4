@@ -8,4 +8,17 @@
         DELETE  FROM ss_delivery_address
         WHERE id = #{id}
     </delete>
+    <update id="setDefault">
+        UPDATE ss_delivery_address
+        SET is_default = 1
+        WHERE id = #{id}
+    </update>
+    <update id="clearDefault">
+        UPDATE ss_delivery_address
+        SET is_default = 0
+        WHERE is_default = 1 AND user_id = #{userId}
+    </update>
+    <select id="getId" resultType="java.lang.Integer">
+        SELECT LAST_INSERT_ID()
+    </select>
 </mapper>

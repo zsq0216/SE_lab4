@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -90,9 +92,24 @@ public class UserController {
 
     @PostMapping("/addDeliveryAddress")
     @ApiOperation("添加收货地址")
-    public Result<?> addDeliveryAddress(@RequestBody DeliveryAddress deliveryAddress){
-        deliveryAddressMapper.insert(deliveryAddress);
+    public Result<?> addDeliveryAddress(@RequestBody DeliveryAddress deliveryAddress,Boolean isDefault){
+        if(isDefault){
+            deliveryAddress.setIsDefault(true);
+            deliveryAddressMapper.clearDefault(deliveryAddress.getUserId());
+            deliveryAddressMapper.insert(deliveryAddress);
+        } else{
+            deliveryAddress.setIsDefault(false);
+            deliveryAddressMapper.insert(deliveryAddress);
+        }
         return Result.success("添加成功");
+    }
+
+    @PutMapping("/setDefaultDeliveryAddress")
+    @ApiOperation("修改默认收货地址")
+    public Result<List<DeliveryAddress>> setDefaultDeliveryAddress(Integer id,Integer userId){
+        deliveryAddressMapper.clearDefault(userId);
+        deliveryAddressMapper.setDefault(id);
+        return Result.success("修改成功");
     }
     @DeleteMapping("/deleteDeliveryAddress")
     @ApiOperation("删除收货地址")
@@ -104,6 +121,7 @@ public class UserController {
     @ApiOperation("显示个人收货地址")
     public Result<List<DeliveryAddress>> showPersonalDeliveryAddress(@RequestParam Integer userId){
         List<DeliveryAddress> list=deliveryAddressMapper.getByUserId(userId);
+        Collections.sort(list);
         return Result.success(list);
     }
     @PutMapping("/updateDeliveryAddress")

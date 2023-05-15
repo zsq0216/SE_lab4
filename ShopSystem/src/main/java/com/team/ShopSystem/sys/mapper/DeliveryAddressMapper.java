@@ -15,4 +15,10 @@ public interface DeliveryAddressMapper extends BaseMapper<DeliveryAddress> {
     List<DeliveryAddress> getByUserId(Integer userId);
 
     void deleteById(Integer id);
+
+    void setDefault(Integer id);
+
+    void clearDefault(Integer userId);
+
+    Integer getId();
 }
