@@ -21,5 +21,5 @@ public interface UserOrderMapper extends BaseMapper<UserOrder> {
     List<UserOrder> selectByShopIdAndStatus(@Param("shopId") Integer shopId, @Param("status") Integer status);
     Integer queryByShopId(@Param("shopId") Integer shopId);
     Integer getMonthSalesByShopId(@Param("shopId")Integer shopId, @Param("date") Date date);
-
+    List<UserOrder> selectByUserIdAndEventId(@Param("userId")Integer userId,@Param("eventId")Integer eventId);
 }

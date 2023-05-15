@@ -19,4 +19,8 @@
         SELECT SUM(quantity) FROM ss_user_order
         WHERE shop_id=#{shopId} AND status=3 AND date >= #{date}
     </select>
+    <select id="selectByUserIdAndEventId" resultType="com.team.ShopSystem.sys.entity.UserOrder">
+        SELECT *  FROM ss_user_order
+        WHERE user_id = #{userId} AND event_id = #{eventId}
+    </select>
 </mapper>

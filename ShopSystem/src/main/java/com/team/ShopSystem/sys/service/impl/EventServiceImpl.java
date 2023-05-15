@@ -50,6 +50,9 @@ public class EventServiceImpl extends ServiceImpl<EventMapper, Event> implements
                     admin.setIntermediateAccount(admin.getIntermediateAccount() - left_funds);
                     admin.setProfitAccount(admin.getProfitAccount() + left_funds);
                     adminMapper.updateById(admin);
+                    EventFunds eventFunds = eventFundsMapper.selectByEventId(event.getId());
+                    eventFunds.setFunds(0.0f);
+                    eventFundsMapper.updateById(eventFunds);
                 }
                 List<EventApply> eventApplies = eventApplyMapper.selectByEventId(event.getId());
                 for (EventApply eventApply : eventApplies) {
