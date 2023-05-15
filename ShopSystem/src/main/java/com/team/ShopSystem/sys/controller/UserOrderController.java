@@ -46,12 +46,27 @@ public class UserOrderController {
     GoodsMapper goodsMapper;
     @Autowired
     MerchantOrderMapper merchantOrderMapper;
-    @ApiOperation("下单操作")
-    @PostMapping("/order")
-    public Result<?> order(@RequestBody List<UserOrder> userOrders){
+    @Autowired
+    CartMapper cartMapper;
+    @Autowired
+    CartGoodsMapper cartGoodsMapper;
+
+    @ApiOperation("购物车下单操作")
+    @PostMapping("/orderFromCart")
+    public Result<?> orderFromCart(@RequestBody List<UserOrder> userOrders){
+        Integer userId=userOrders.get(0).getUserId();
+        Integer cartId=cartMapper.getCartByUserId(userId);
         for (UserOrder userOrder : userOrders) {
+            Integer goodsId=userOrder.getGoodsId();
+            cartGoodsMapper.deleteBatch(cartId,goodsId);
             userOrderMapper.insert(userOrder);
         }
+        return Result.success("下单成功");
+    }
+    @ApiOperation("直接下单操作")
+    @PostMapping("/orderDirect")
+    public Result<?> orderDirect(@RequestBody UserOrder userOrder){
+        userOrderMapper.insert(userOrder);
         return Result.success("下单成功");
     }
 
