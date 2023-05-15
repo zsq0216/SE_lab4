@@ -161,5 +161,9 @@ public class EventController {
     public Result<?> showGoods(@RequestParam Integer eventId){
         return Result.success(goodsMapper.getByEventId(eventId),"显示所有参加某一活动的商品");
     }
-
+    @ApiOperation("显示活动信息")
+    @GetMapping("/show")
+    public Result<?> show(@RequestParam Integer eventId){
+        return Result.success(eventMapper.selectById(eventId),"成功返回该活动信息");
+    }
 }
