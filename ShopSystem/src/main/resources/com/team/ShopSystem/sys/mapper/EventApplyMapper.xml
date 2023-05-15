@@ -9,4 +9,9 @@
         SELECT * FROM ss_event_apply
         WHERE event_id = #{eventId}
     </select>
+
+    <select id="selectByStatus" resultType="com.team.ShopSystem.sys.entity.EventApply">
+        SELECT * FROM ss_event_apply
+        WHERE status = #{status}
+    </select>
 </mapper>
