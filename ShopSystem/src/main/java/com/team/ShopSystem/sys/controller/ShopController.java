@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -50,19 +51,25 @@ public class ShopController {
 
     @PostMapping("/add")
     @ApiOperation("申请开店")
-    public Result<?> addShop(@RequestBody Shop shop,@RequestParam LocalDate time){//@RequestBody 将json转换为User对象
+    public Result<?> addShop(@RequestBody Shop shop,@RequestParam String stime){//@RequestBody 将json转换为User对象
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate time = LocalDate.parse(stime, formatter);
         return shopService.addShop(shop,time);
     }
 
     @PutMapping("/approve")
     @ApiOperation("批准申请")
-    public Result<?> approveShop(@RequestBody Shop shop,@RequestParam LocalDate time){//@RequestBody 将json转换为User对象
+    public Result<?> approveShop(@RequestBody Shop shop,@RequestParam String stime){//@RequestBody 将json转换为User对象
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate time = LocalDate.parse(stime, formatter);
         return shopService.approveShop(shop,time);
     }
 
     @PutMapping("/disapprove")
     @ApiOperation("拒绝申请")
-    public Result<?> disapproveShop(@RequestBody Shop shop,@RequestParam LocalDate time){//@RequestBody 将json转换为User对象
+    public Result<?> disapproveShop(@RequestBody Shop shop,@RequestParam String stime){//@RequestBody 将json转换为User对象
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate time = LocalDate.parse(stime, formatter);
         return shopService.disapproveShop(shop,time);
     }
 
@@ -74,7 +81,9 @@ public class ShopController {
 
     @PostMapping("/approveDelete")
     @ApiOperation("批准删除商店")
-    public Result<?> approveDeleteShop(@RequestBody Shop shop,@RequestParam LocalDate time){
+    public Result<?> approveDeleteShop(@RequestBody Shop shop,@RequestParam String stime){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate time = LocalDate.parse(stime, formatter);
         Result<?> result = shopService.approveDeleteShop(shop,time);
         shop.setAccount(0F);
         shopService.updateById(shop);
