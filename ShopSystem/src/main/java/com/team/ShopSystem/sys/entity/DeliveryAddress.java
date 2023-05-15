@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @Author: Zhong Siqi
@@ -18,7 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class DeliveryAddress {
+public class DeliveryAddress implements Comparable<DeliveryAddress>{
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     private Integer userId;
@@ -27,4 +28,15 @@ public class DeliveryAddress {
     private String phoneNumber;
 
     private String address;
+
+    private Boolean isDefault;
+
+    @Override
+    public int compareTo(@NotNull DeliveryAddress o) {
+        if(this.getIsDefault()^o.getIsDefault()){
+            return this.getIsDefault() ? -1 : 1;
+        }else{
+            return 0;
+        }
+    }
 }
