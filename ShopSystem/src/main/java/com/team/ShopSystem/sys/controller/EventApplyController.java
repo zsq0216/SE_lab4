@@ -2,11 +2,8 @@ package com.team.ShopSystem.sys.controller;
 
 import com.team.ShopSystem.common.vo.Result;
 import com.team.ShopSystem.config.ConstantsProperties;
-import com.team.ShopSystem.sys.entity.EventApply;
-import com.team.ShopSystem.sys.entity.EventApplyPlus;
-import com.team.ShopSystem.sys.mapper.EventApplyMapper;
-import com.team.ShopSystem.sys.mapper.EventMapper;
-import com.team.ShopSystem.sys.mapper.ShopMapper;
+import com.team.ShopSystem.sys.entity.*;
+import com.team.ShopSystem.sys.mapper.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +35,23 @@ public class EventApplyController {
     EventMapper eventMapper;
     @Autowired
     ShopMapper shopMapper;
+    @Autowired
+    EventCategoryMapper eventCategoryMapper;
+    @Autowired
+    ShopCategoryMapper shopCategoryMapper;
     @ApiOperation("显示所有待批准活动申请")
     @GetMapping("/getApplying")
     public Result<?> getApplying(){
         List<EventApply> eventApplyList = eventApplyMapper.selectByStatus(constants.getUnapproved());
         List<EventApplyPlus> eventApplyPluses = new ArrayList<>();
         for (EventApply eventApply : eventApplyList) {
-            eventApplyPluses.add(new EventApplyPlus(eventApply,eventMapper.selectById(eventApply.getEventId()),shopMapper.selectById(eventApply.getShopId())));
+            List<String> categoryList = eventCategoryMapper.selectByEventId(eventApply.getEventId());
+            Event event = eventMapper.selectById(eventApply.getEventId());
+            event.setCategory(categoryList);
+            Shop shop = shopMapper.selectById(eventApply.getShopId());
+            categoryList = shopCategoryMapper.getByShopId(eventApply.getShopId());
+            shop.setCategory(categoryList);
+            eventApplyPluses.add(new EventApplyPlus(eventApply,event,shop));
         }
         return Result.success(eventApplyPluses,"成功获得所有待批准活动申请");
     }
@@ -54,7 +61,13 @@ public class EventApplyController {
         List<EventApply> eventApplyList = eventApplyMapper.selectByStatus(constants.getApproved());
         List<EventApplyPlus> eventApplyPluses = new ArrayList<>();
         for (EventApply eventApply : eventApplyList) {
-            eventApplyPluses.add(new EventApplyPlus(eventApply,eventMapper.selectById(eventApply.getEventId()),shopMapper.selectById(eventApply.getShopId())));
+            List<String> categoryList = eventCategoryMapper.selectByEventId(eventApply.getEventId());
+            Event event = eventMapper.selectById(eventApply.getEventId());
+            event.setCategory(categoryList);
+            Shop shop = shopMapper.selectById(eventApply.getShopId());
+            categoryList = shopCategoryMapper.getByShopId(eventApply.getShopId());
+            shop.setCategory(categoryList);
+            eventApplyPluses.add(new EventApplyPlus(eventApply,event,shop));
         }
         return Result.success(eventApplyPluses,"成功获得所有已批准活动申请");
     }
@@ -64,7 +77,13 @@ public class EventApplyController {
         List<EventApply> eventApplyList = eventApplyMapper.selectByStatus(constants.getRejected());
         List<EventApplyPlus> eventApplyPluses = new ArrayList<>();
         for (EventApply eventApply : eventApplyList) {
-            eventApplyPluses.add(new EventApplyPlus(eventApply,eventMapper.selectById(eventApply.getEventId()),shopMapper.selectById(eventApply.getShopId())));
+            List<String> categoryList = eventCategoryMapper.selectByEventId(eventApply.getEventId());
+            Event event = eventMapper.selectById(eventApply.getEventId());
+            event.setCategory(categoryList);
+            Shop shop = shopMapper.selectById(eventApply.getShopId());
+            categoryList = shopCategoryMapper.getByShopId(eventApply.getShopId());
+            shop.setCategory(categoryList);
+            eventApplyPluses.add(new EventApplyPlus(eventApply,event,shop));
         }
         return Result.success(eventApplyPluses,"成功获得所有已拒绝活动申请");
     }
