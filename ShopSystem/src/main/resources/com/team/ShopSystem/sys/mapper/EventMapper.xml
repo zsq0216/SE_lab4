@@ -1,0 +1,10 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.ShopSystem.sys.mapper.EventMapper">
+    <select id="getLastId" resultType="java.lang.Integer">
+        SELECT LAST_INSERT_ID()
+    </select>
+    <select id="show" resultType="com.team.ShopSystem.sys.entity.Event">
+        SELECT * FROM ss_event
+        WHERE status != 2
+    </select>
+</mapper>

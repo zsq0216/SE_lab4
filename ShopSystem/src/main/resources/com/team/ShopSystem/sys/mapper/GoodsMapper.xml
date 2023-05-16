@@ -26,4 +26,8 @@
         SELECT * FROM ss_goods
         WHERE id = #{id}
     </select>
+    <select id="getByEventId" resultType="com.team.ShopSystem.sys.entity.Goods">
+        SELECT * FROM ss_goods
+        WHERE event_id=#{eventId} AND status = 1
+    </select>
 </mapper>

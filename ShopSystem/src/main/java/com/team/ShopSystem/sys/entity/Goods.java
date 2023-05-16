@@ -16,10 +16,10 @@ import java.util.List;
 
 @TableName("ss_goods")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Goods {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
@@ -35,5 +35,9 @@ public class Goods {
     private float price;
 
     private Integer status;
+
     private Integer sales;
+    @TableField(exist = false)
+    private List<String> category;
+    private Integer eventId;
 }

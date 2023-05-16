@@ -13,4 +13,5 @@ import java.util.List;
  **/
 public interface ShopCategoryMapper extends BaseMapper<ShopCategory> {
     List<String> getByShopId(@Param("shopId") Integer shopId);
+    List<String> getCategory();
 }
