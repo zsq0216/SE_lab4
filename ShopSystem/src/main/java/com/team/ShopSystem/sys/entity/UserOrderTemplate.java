@@ -48,5 +48,6 @@ public class UserOrderTemplate{
     private Float totalPrice;
 
     private Integer eventId;
+    private Boolean source;
 
 }

@@ -9,4 +9,5 @@ public class UserOrderPlus {
     private UserOrder userOrder;
     private Shop shop;
     private Goods goods;
+    private DeliveryAddress deliveryAddress;
 }
