@@ -9,4 +9,5 @@ public class UserOrderTemplatePlus {
     private UserOrderTemplate userOrderTemplate;
     private Shop shop;
     private Goods goods;
+    private Event event;
 }
