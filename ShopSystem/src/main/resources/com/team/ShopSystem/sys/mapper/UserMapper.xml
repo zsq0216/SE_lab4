@@ -27,8 +27,4 @@
         FROM ss_user
         WHERE id = #{id}
     </select>
-    <select id="getById" resultType="com.team.ShopSystem.sys.entity.User">
-        SELECT * FROM ss_user
-        WHERE id = #{id}
-    </select>
 </mapper>

@@ -6,4 +6,8 @@
         FROM ss_shop_category
         WHERE `shop_id` = #{shopId}
     </select>
+    <select id="getCategory" resultType="java.lang.String">
+        SELECT `category_name`
+        FROM ss_shop_category
+    </select>
 </mapper>

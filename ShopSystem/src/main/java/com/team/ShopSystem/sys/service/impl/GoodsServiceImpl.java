@@ -3,9 +3,7 @@ package com.team.ShopSystem.sys.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.team.ShopSystem.common.vo.MsgEnum;
 import com.team.ShopSystem.common.vo.Result;
-import com.team.ShopSystem.sys.entity.Goods;
-import com.team.ShopSystem.sys.entity.GoodsImage;
-import com.team.ShopSystem.sys.entity.GoodsUpdate;
+import com.team.ShopSystem.sys.entity.*;
 import com.team.ShopSystem.sys.mapper.*;
 import com.team.ShopSystem.sys.service.IGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +30,20 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Resource
     GoodsUpdateMapper goodsUpdateMapper;
+    @Autowired
+    GoodsCategoryMapper goodsCategoryMapper;
 
     @Override
     public Result<?> addGoodsApply(Goods goods,Integer shopId){
+        System.out.println(goods);
         goods.setShopId(shopId);
         goods.setStatus(0);
         goodsMapper.insertGoods(goods);
         for(String image:goods.getImage()){
             goodsImageMapper.insert(new GoodsImage(null,goods.getId(),image,0));
+        }
+        for (String categoryName : goods.getCategory()) {
+            goodsCategoryMapper.insert(new GoodsCategory(null,categoryName,goods.getId()));
         }
         return Result.success("等待管理员审核");
     }

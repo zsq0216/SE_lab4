@@ -11,7 +11,13 @@ public enum MsgEnum {
     ERROR_EMAIL(20007,"邮箱已被注册过"),
     ERROR_CLASS(20008,"用户类错误"),
     ERROR_SHOPNAME(20009,"店铺名已被注册过"),
-    ERROR_INSUFFICIENTFUNDS(20010,"账户余额不足");
+    ERROR_INSUFFICIENTFUNDS(20010,"账户余额不足"),
+    ERROR_DELETESHOP(20011,"有尚未完成的订单"),
+    ERROR_EVENT(20012,"商店已申请活动"),
+    ERROR_SHOPFUND(20013,"商店注册资金不达标"),
+    ERROR_SHOPSALES(20014,"商店销售额不达标"),
+    ERROR_SHOPPROFIT(20015,"商店利润不达标"),
+    ERROR_EVENTEND(20016,"活动已结束");
     private Integer code;
     private String message;
 

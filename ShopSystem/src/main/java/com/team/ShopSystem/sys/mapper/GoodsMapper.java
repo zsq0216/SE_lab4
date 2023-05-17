@@ -23,5 +23,7 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     Goods getById(@Param("id") Integer id);
 
-    List<Goods> getByKeyword(String keyword);
+    List<Goods> getByKeyword(@Param("keyword") String keyword);
+
+    List<Goods> getByEventId(@Param("eventId")Integer event_id);
 }

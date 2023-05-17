@@ -22,6 +22,5 @@ public interface UserMapper extends BaseMapper<User> {
     Integer queryByIdNumber(@Param("idNumber") String idNumber);
     Integer queryByEmail(@Param("email") String email);
     Integer getUserIdByUsername(@Param("username") String username);
-    User getById(@Param("id") Integer id);
     String getUsernameByUserId(@Param("id") Integer id);
 }

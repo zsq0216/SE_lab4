@@ -27,6 +27,12 @@
         WHERE id = #{id}
     </select>
     <select id="getByKeyword" resultType="com.team.ShopSystem.sys.entity.Goods">
-
+        SELECT * FROM ss_goods
+        WHERE goods_name LIKE CONCAT('%', #{keyword}, '%')
+        OR description LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+    <select id="getByEventId" resultType="com.team.ShopSystem.sys.entity.Goods">
+        SELECT * FROM ss_goods
+        WHERE event_id=#{eventId} AND status = 1
     </select>
 </mapper>
