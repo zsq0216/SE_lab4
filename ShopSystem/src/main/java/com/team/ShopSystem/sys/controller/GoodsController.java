@@ -284,4 +284,10 @@ public class GoodsController {
         //返回文件名称
         return Result.success(filename);
     }
+
+    @PostMapping("/searchGoods")
+    @ApiOperation("搜索商品")
+    public Result<List<Goods>> searchGoods(@RequestParam String keyword){
+        return goodsService.searchGoods(keyword);
+    }
 }

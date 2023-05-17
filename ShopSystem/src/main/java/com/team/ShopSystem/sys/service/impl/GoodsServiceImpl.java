@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Author: Zhong Siqi
@@ -107,5 +108,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         goods.setSales(goodsMapper.getById(goods.getId()).getSales());
         return goods;
     }
-
+    @Override
+    public Result<List<Goods>> searchGoods(String keyword){
+        List<Goods> goodsList=goodsMapper.getByKeyword(keyword);
+        return Result.success(goodsList);
+    }
 }

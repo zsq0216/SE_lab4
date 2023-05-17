@@ -5,6 +5,8 @@ import com.team.ShopSystem.common.vo.Result;
 import com.team.ShopSystem.sys.entity.Goods;
 import com.team.ShopSystem.sys.entity.GoodsUpdate;
 
+import java.util.List;
+
 /**
  * @Author: Zhong Siqi
  * @Description: 商品
@@ -26,4 +28,6 @@ public interface IGoodsService extends IService<Goods> {
     Result<?> addGoodsReject(Integer goodsId);
 
     Result<?> updateGoodsReject(Integer goodsId);
+
+    Result<List<Goods>> searchGoods(String keyword);
 }

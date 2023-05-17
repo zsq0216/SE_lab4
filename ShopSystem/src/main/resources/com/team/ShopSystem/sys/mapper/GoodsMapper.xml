@@ -26,4 +26,7 @@
         SELECT * FROM ss_goods
         WHERE id = #{id}
     </select>
+    <select id="getByKeyword" resultType="com.team.ShopSystem.sys.entity.Goods">
+
+    </select>
 </mapper>

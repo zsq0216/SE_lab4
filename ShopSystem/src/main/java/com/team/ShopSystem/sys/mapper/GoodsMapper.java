@@ -22,4 +22,6 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     List<Goods> getByShopStatus(@Param("shopId")Integer shopId,@Param("status") Integer status);
 
     Goods getById(@Param("id") Integer id);
+
+    List<Goods> getByKeyword(String keyword);
 }
