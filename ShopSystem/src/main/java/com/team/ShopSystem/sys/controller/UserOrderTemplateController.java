@@ -1,14 +1,8 @@
 package com.team.ShopSystem.sys.controller;
 
 import com.team.ShopSystem.common.vo.Result;
-import com.team.ShopSystem.sys.entity.UserOrder;
-import com.team.ShopSystem.sys.entity.UserOrderPlus;
-import com.team.ShopSystem.sys.entity.UserOrderTemplate;
-import com.team.ShopSystem.sys.entity.UserOrderTemplatePlus;
-import com.team.ShopSystem.sys.mapper.CartMapper;
-import com.team.ShopSystem.sys.mapper.GoodsMapper;
-import com.team.ShopSystem.sys.mapper.ShopMapper;
-import com.team.ShopSystem.sys.mapper.UserOrderTemplateMapper;
+import com.team.ShopSystem.sys.entity.*;
+import com.team.ShopSystem.sys.mapper.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +30,15 @@ public class UserOrderTemplateController {
     ShopMapper shopMapper;
     @Autowired
     GoodsMapper goodsMapper;
+    @Autowired
+    ShopCategoryMapper shopCategoryMapper;
+    @Autowired
+    GoodsCategoryMapper goodsCategoryMapper;
+    @Autowired
+    EventMapper eventMapper;
+    @Autowired
+    EventCategoryMapper eventCategoryMapper;
+
 
     @ApiOperation("确认选择商品")
     @PostMapping("/order")
@@ -61,7 +64,15 @@ public class UserOrderTemplateController {
         List<UserOrderTemplate> userOrderTemplateList = userOrderTemplateMapper.selectByTemplate(template);
         List<UserOrderTemplatePlus> userOrderTemplatePlusList = new ArrayList<>();
         for (UserOrderTemplate userOrderTemplate : userOrderTemplateList) {
-            userOrderTemplatePlusList.add(new UserOrderTemplatePlus(userOrderTemplate,shopMapper.selectById(userOrderTemplate.getShopId()),goodsMapper.selectById(userOrderTemplate.getGoodsId())));
+            Shop shop = shopMapper.selectById(userOrderTemplate.getShopId());
+            List<String> categoryList = shopCategoryMapper.getByShopId(shop.getId());
+            shop.setCategory(categoryList);
+            Goods goods = goodsMapper.selectById(userOrderTemplate.getGoodsId());
+            categoryList = goodsCategoryMapper.getByGoodsId(goods.getId());
+            goods.setCategory(categoryList);
+            Event event = eventMapper.selectById(userOrderTemplate.getEventId());
+            categoryList = eventCategoryMapper.selectByEventId(event.getId());
+            userOrderTemplatePlusList.add(new UserOrderTemplatePlus(userOrderTemplate,shop,goods,event));
         }
         return Result.success(userOrderTemplatePlusList,"成功获得临时订单");
     }

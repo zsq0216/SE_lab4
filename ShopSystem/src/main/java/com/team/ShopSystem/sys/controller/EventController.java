@@ -153,17 +153,30 @@ public class EventController {
     @ApiOperation("显示所有活动")
     @GetMapping("/showEvent")
     public Result<?> showEvent(){
-        return Result.success(eventMapper.show(),"显示所有商城活动");
+        List<Event> events = eventMapper.show();
+        for (Event event : events) {
+            List<String> categoryList = eventCategoryMapper.selectByEventId(event.getId());
+            event.setCategory(categoryList);
+        }
+        return Result.success(events,"显示所有商城活动");
     }
 
     @ApiOperation("显示参加某一活动的所有商品")
     @GetMapping("/showGoods")
     public Result<?> showGoods(@RequestParam Integer eventId){
-        return Result.success(goodsMapper.getByEventId(eventId),"显示所有参加某一活动的商品");
+        List<Goods> goodsList = goodsMapper.getByEventId(eventId);
+        for (Goods goods : goodsList) {
+            List<String> categoryList = goodsCategoryMapper.getByGoodsId(goods.getId());
+            goods.setCategory(categoryList);
+        }
+        return Result.success(goodsList,"显示所有参加某一活动的商品");
     }
     @ApiOperation("显示活动信息")
     @GetMapping("/show")
     public Result<?> show(@RequestParam Integer eventId){
-        return Result.success(eventMapper.selectById(eventId),"成功返回该活动信息");
+        Event event = eventMapper.selectById(eventId);
+        List<String> categoryList = eventCategoryMapper.selectByEventId(event.getId());
+        event.setCategory(categoryList);
+        return Result.success(event,"成功返回该活动信息");
     }
 }

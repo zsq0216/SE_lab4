@@ -62,7 +62,10 @@ public class UserOrderController {
     EventMapper eventMapper;
     @Autowired
     EventApplyMapper eventApplyMapper;
-
+    @Autowired
+    GoodsCategoryMapper goodsCategoryMapper;
+    @Autowired
+    ShopCategoryMapper shopCategoryMapper;
 
 
     @ApiOperation("购物车下单操作")
@@ -103,7 +106,7 @@ public class UserOrderController {
         if(order_amount > user.getAccount()) {
             return Result.fail(MsgEnum.ERROR_INSUFFICIENTFUNDS);
         }
-        Integer[] events = price_amount.keySet().toArray(new Integer[0]);
+        Integer[] events = price_amount.keySet().toArray(new Integer[0]);//所有参加的活动
         int i;
         for (i=0; i< events.length; i++) {
             if(events[i] == 0){
@@ -111,6 +114,25 @@ public class UserOrderController {
             }
             if(price_amount.get(events[i])>eventFundsMapper.selectFundsByEventId(events[i])){
                 Event event = eventMapper.selectById(events[i]);
+                if(event.getStatus() == constants.getRejected()){
+                    List<UserOrder> userOrderList = userOrderMapper.selectByUserIdAndEventId(userOrders.get(0).getUserId(),events[i]);
+                    for (UserOrder userOrder : userOrderList) {
+                        Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
+                        userOrder.setUnitPrice(goods.getPrice());
+                        userOrder.setTotalPrice(userOrder.getQuantity() * goods.getPrice());
+                        userOrderMapper.updateById(userOrder);
+                    }
+                    return Result.fail(MsgEnum.ERROR_EVENTEND,events[i]);
+                }
+                float left_funds = eventFundsMapper.selectFundsByEventId(events[i]);
+                transferRecordsMapper.insert(new TransferRecords("admin_intermediate",left_funds,"admin_profit",LocalDate.now(),"remaining funds refunded"));
+                Admin admin = adminMapper.get();
+                admin.setIntermediateAccount(admin.getIntermediateAccount() - left_funds);
+                admin.setProfitAccount(admin.getProfitAccount() + left_funds);
+                adminMapper.updateById(admin);
+                EventFunds eventFunds = eventFundsMapper.selectByEventId(event.getId());
+                eventFunds.setFunds(0.0f);
+                eventFundsMapper.updateById(eventFunds);
                 event.setStatus(constants.getRejected());
                 eventMapper.updateById(event);
                 List<EventApply> eventApplies = eventApplyMapper.selectByEventId(event.getId());
@@ -231,7 +253,10 @@ public class UserOrderController {
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
+            Shop shop = shopMapper.selectById(userOrder.getShopId());
+            shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
         }
         return Result.success(userOrderPluses);
     }
@@ -249,7 +274,10 @@ public class UserOrderController {
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
+            Shop shop = shopMapper.selectById(userOrder.getShopId());
+            shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
         }
         return Result.success(userOrderPluses);
     }
@@ -267,7 +295,10 @@ public class UserOrderController {
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
+            Shop shop = shopMapper.selectById(userOrder.getShopId());
+            shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
         }
         return Result.success(userOrderPluses);
     }
@@ -285,7 +316,10 @@ public class UserOrderController {
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
+            Shop shop = shopMapper.selectById(userOrder.getShopId());
+            shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
         }
         return Result.success(userOrderPluses);
     }
@@ -303,7 +337,10 @@ public class UserOrderController {
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
+            Shop shop = shopMapper.selectById(userOrder.getShopId());
+            shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
         }
         return Result.success(userOrderPluses);
     }
@@ -321,7 +358,10 @@ public class UserOrderController {
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
+            Shop shop = shopMapper.selectById(userOrder.getShopId());
+            shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
         }
         return Result.success(userOrderPluses);
     }
@@ -339,7 +379,10 @@ public class UserOrderController {
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
+            Shop shop = shopMapper.selectById(userOrder.getShopId());
+            shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
         }
         return Result.success(userOrderPluses);
     }
@@ -357,7 +400,10 @@ public class UserOrderController {
         for (UserOrder userOrder : userOrders) {
             Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
             goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shopMapper.selectById(userOrder.getShopId()),goods));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
+            Shop shop = shopMapper.selectById(userOrder.getShopId());
+            shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
         }
         return Result.success(userOrderPluses);
     }

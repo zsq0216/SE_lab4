@@ -25,4 +25,5 @@ public interface UserOrderMapper extends BaseMapper<UserOrder> {
     List<Integer> getGoodsId(@Param("userId") Integer userId);
     List<Integer> getGoodsIdByUser(Integer userId,Integer goodsId);
     List<Integer> getUserByGoods(Integer userId,Integer goodsId);
+    List<UserOrder> selectByUserIdAndEventId(@Param("userId")Integer userId,@Param("eventId")Integer eventId);
 }
