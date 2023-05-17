@@ -61,13 +61,13 @@ public class CartController {
 
 
     @PostMapping("/add2cart")
-    @ApiOperation("一次性添加多件商品到购物车")
+    @ApiOperation("添加单件商品到购物车")
     public Result<?> add2cart(@RequestParam Integer userId,@RequestParam Integer goodsId){
         return cartService.add2Cart(userId, goodsId);
     }
 
     @PostMapping("/addMulti2cart")
-    @ApiOperation("添加商品到购物车")
+    @ApiOperation("添加多件商品到购物车")
     public Result<?> addMulti2cart(Integer userId, Integer goodsId, Integer quantity){
         return cartService.addMulti2cart(userId, goodsId,quantity);
     }
