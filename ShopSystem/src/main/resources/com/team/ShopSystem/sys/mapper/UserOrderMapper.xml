@@ -19,4 +19,16 @@
         SELECT SUM(quantity) FROM ss_user_order
         WHERE shop_id=#{shopId} AND status=3 AND date >= #{date}
     </select>
+    <select id="getGoodsId" resultType="java.lang.Integer">
+        SELECT goods_id FROM ss_user_order
+        WHERE user_id=#{userId}
+    </select>
+    <select id="getGoodsIdByUser" resultType="java.lang.Integer">
+        SELECT goods_id FROM ss_user_order
+        WHERE user_id=#{userId} AND goods_id !=#{goodsId}
+    </select>
+    <select id="getUserByGoods" resultType="java.lang.Integer">
+        SELECT user_id FROM ss_user_order
+        WHERE goods_id=#{goodsId} AND user_id != #{userId}
+    </select>
 </mapper>

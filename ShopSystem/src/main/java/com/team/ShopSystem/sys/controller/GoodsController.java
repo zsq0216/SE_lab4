@@ -311,9 +311,15 @@ public class GoodsController {
         return Result.success(filename);
     }
 
-    @PostMapping("/searchGoods")
+    @GetMapping("/searchGoods")
     @ApiOperation("搜索商品")
     public Result<List<Goods>> searchGoods(@RequestParam String keyword){
         return goodsService.searchGoods(keyword);
+    }
+
+    @GetMapping("/showRecommendGoods")
+    @ApiOperation("首页推荐")
+    public Result<List<GoodsPlus>> showRecommendGoods(@RequestParam Integer userId){
+        return goodsService.recommendGoods(userId);
     }
 }

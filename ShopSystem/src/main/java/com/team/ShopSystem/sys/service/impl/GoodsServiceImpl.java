@@ -3,6 +3,7 @@ package com.team.ShopSystem.sys.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.team.ShopSystem.common.vo.MsgEnum;
 import com.team.ShopSystem.common.vo.Result;
+import com.team.ShopSystem.config.ConstantsProperties;
 import com.team.ShopSystem.sys.entity.*;
 import com.team.ShopSystem.sys.mapper.*;
 import com.team.ShopSystem.sys.service.IGoodsService;
@@ -10,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: Zhong Siqi
@@ -21,17 +25,22 @@ import java.util.List;
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements IGoodsService {
     @Autowired
     GoodsMapper goodsMapper;
-
     @Autowired
     CartGoodsMapper cartGoodsMapper;
-
     @Autowired
     GoodsImageMapper goodsImageMapper;
-
+    @Autowired
+    EventMapper eventMapper;
     @Resource
     GoodsUpdateMapper goodsUpdateMapper;
     @Autowired
     GoodsCategoryMapper goodsCategoryMapper;
+    @Autowired
+    ConstantsProperties constants;
+    @Autowired
+    CartMapper cartMapper;
+    @Autowired
+    UserOrderMapper userOrderMapper;
 
     @Override
     public Result<?> addGoodsApply(Goods goods,Integer shopId){
@@ -116,5 +125,46 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     public Result<List<Goods>> searchGoods(String keyword){
         List<Goods> goodsList=goodsMapper.getByKeyword(keyword);
         return Result.success(goodsList);
+    }
+
+    @Override
+    public Result<List<GoodsPlus>> recommendGoods(Integer userId) {
+        HashSet<Integer> newGoodsIdList = new HashSet<>();
+        List<Goods> allList = new ArrayList<>();
+        Integer cartId=cartMapper.getCartByUserId(userId);
+        List<Integer> goodsIdList1=cartGoodsMapper.getGoodsId(cartId);
+        if(goodsIdList1!=null){
+            for(Integer goodsId: goodsIdList1) {
+                List<Integer> cartIdList=cartGoodsMapper.getCartByGoodsId(goodsId,cartId);
+                if(cartIdList!=null){
+                    for(Integer newCartId:cartIdList){
+                        newGoodsIdList.addAll(cartGoodsMapper.getGoodsIdByCart(newCartId,goodsId));
+                    }
+                }
+            }
+        }
+        List<Integer> goodsIdList2=userOrderMapper.getGoodsId(userId);
+        if(goodsIdList2!=null){
+            for (Integer goodsId:goodsIdList2){
+                List<Integer> userIdList=userOrderMapper.getUserByGoods(userId,goodsId);
+                if(userIdList!=null){
+                    for(Integer newUserId : userIdList){
+                        newGoodsIdList.addAll(userOrderMapper.getGoodsIdByUser(newUserId,goodsId));
+                    }
+                }
+            }
+        }
+        for (Integer goodsId : newGoodsIdList) {
+            allList.add(goodsMapper.getById(goodsId));
+        }
+        allList.addAll(goodsMapper.getByStatus(constants.approved));
+        List<Goods> resultList=allList.stream().distinct().collect(Collectors.toList());
+        List<GoodsPlus> plusList =new ArrayList<>();
+        for (Goods goods : resultList) {
+            goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
+            plusList.add(new GoodsPlus(goods,eventMapper.selectById(goods.getEventId())));
+        }
+        return Result.success(plusList);
     }
 }

@@ -2,6 +2,7 @@ package com.team.ShopSystem.sys.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.team.ShopSystem.sys.entity.CartGoods;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -19,6 +20,11 @@ public interface CartGoodsMapper extends BaseMapper<CartGoods> {
     void updateQuantity(Integer cartId, Integer goodsId,Integer variate);
 
     List<CartGoods> getByCartId(Integer cartId);
+
+    List<Integer> getGoodsId(Integer cartId);
+    List<Integer> getGoodsIdByCart(Integer cartId,Integer goodsId);
+
+    List<Integer> getCartByGoodsId(Integer goodsId, Integer cartId);
 
     Integer queryByGoodsId(Integer goodsId);
 

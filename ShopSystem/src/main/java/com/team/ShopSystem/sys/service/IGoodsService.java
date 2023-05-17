@@ -3,7 +3,9 @@ package com.team.ShopSystem.sys.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.team.ShopSystem.common.vo.Result;
 import com.team.ShopSystem.sys.entity.Goods;
+import com.team.ShopSystem.sys.entity.GoodsPlus;
 import com.team.ShopSystem.sys.entity.GoodsUpdate;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -30,4 +32,6 @@ public interface IGoodsService extends IService<Goods> {
     Result<?> updateGoodsReject(Integer goodsId);
 
     Result<List<Goods>> searchGoods(String keyword);
+
+    Result<List<GoodsPlus>> recommendGoods(Integer userId);
 }

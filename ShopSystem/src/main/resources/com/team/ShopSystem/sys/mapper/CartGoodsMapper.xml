@@ -34,4 +34,16 @@
         SELECT goods_quantity FROM ss_cart_goods
         WHERE cart_id = #{cartId} AND goods_id = #{goodsId}
     </select>
+    <select id="getGoodsId" resultType="java.lang.Integer">
+        SELECT goods_id FROM ss_cart_goods
+        WHERE cart_id = #{cartId}
+    </select>
+    <select id="getGoodsIdByCart" resultType="java.lang.Integer">
+        SELECT goods_id FROM ss_cart_goods
+        WHERE cart_id = #{cartId} AND goods_id !=#{goodsId}
+    </select>
+    <select id="getCartByGoodsId" resultType="java.lang.Integer">
+        SELECT cart_id FROM ss_cart_goods
+        WHERE goods_id = #{goodsId} AND cart_id != #{cartId}
+    </select>
 </mapper>

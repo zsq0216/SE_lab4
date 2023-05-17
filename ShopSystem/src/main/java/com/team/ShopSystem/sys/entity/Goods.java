@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Goods {
+public class Goods implements Comparable<Goods>{
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
@@ -40,4 +41,9 @@ public class Goods {
     @TableField(exist = false)
     private List<String> category;
     private Integer eventId;
+
+    @Override
+    public int compareTo(@NotNull Goods o) {
+        return this.getSales()-o.getSales();
+    }
 }
