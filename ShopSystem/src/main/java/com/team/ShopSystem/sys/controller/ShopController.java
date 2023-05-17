@@ -108,6 +108,7 @@ public class ShopController {
     @ApiOperation("通过shopId获得shop的信息")
     public Result<Shop> showShopByShopId(@RequestParam Integer shopId){
         Shop shop = shopMapper.getById(shopId);
+        shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
         return Result.success(shop);
     }
 
