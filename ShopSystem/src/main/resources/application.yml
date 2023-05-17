@@ -5,9 +5,9 @@ server:
 
 spring:
   datasource:
-    username: remoteuser
-    password: password
-    url: jdbc:mysql://120.46.154.28:3306/ShopSystem?useSSL=false&serverTimezone=UTc
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/shopSystem
   redis:
     port: 6379
     host: localhost
