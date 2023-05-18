@@ -322,4 +322,12 @@ public class GoodsController {
     public Result<List<GoodsPlus>> showRecommendGoods(@RequestParam Integer userId){
         return goodsService.recommendGoods(userId);
     }
+    @GetMapping("/GoodsDetails")
+    @ApiOperation("商品详情")
+    public Result<GoodsPlus> GoodsDetails(@RequestParam Integer goodsId){
+        Goods goods=goodsMapper.getById(goodsId);
+        goods.setImage(goodsImageMapper.getByGoodsId(goodsId));
+        goods.setCategory(goodsCategoryMapper.getByGoodsId(goodsId));
+        return Result.success(new GoodsPlus(goods,eventMapper.selectById(goods.getEventId())));
+    }
 }
