@@ -66,7 +66,8 @@ public class UserOrderController {
     GoodsCategoryMapper goodsCategoryMapper;
     @Autowired
     ShopCategoryMapper shopCategoryMapper;
-
+    @Autowired
+    DeliveryAddressMapper deliveryAddressMapper;
 
     @ApiOperation("购物车下单操作")
     @PostMapping("/orderFromCart")
@@ -256,9 +257,11 @@ public class UserOrderController {
             goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
             Shop shop = shopMapper.selectById(userOrder.getShopId());
             shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
+            DeliveryAddress deliveryAddress = deliveryAddressMapper.selectById(userOrder.getAddressId());
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods,deliveryAddress));
         }
-        return Result.success(userOrderPluses);
+        PageInfo pageInfo = new PageInfo(userOrderPluses,page.getTotal(),page.getPages());
+        return Result.success(pageInfo);
     }
 
     @ApiOperation("返回所有已支付订单")
@@ -277,9 +280,11 @@ public class UserOrderController {
             goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
             Shop shop = shopMapper.selectById(userOrder.getShopId());
             shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
+            DeliveryAddress deliveryAddress = deliveryAddressMapper.selectById(userOrder.getAddressId());
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods,deliveryAddress));
         }
-        return Result.success(userOrderPluses);
+        PageInfo pageInfo = new PageInfo(userOrderPluses,page.getTotal(),page.getPages());
+        return Result.success(pageInfo);
     }
 
     @ApiOperation("返回所有待收货订单")
@@ -298,9 +303,11 @@ public class UserOrderController {
             goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
             Shop shop = shopMapper.selectById(userOrder.getShopId());
             shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
+            DeliveryAddress deliveryAddress = deliveryAddressMapper.selectById(userOrder.getAddressId());
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods,deliveryAddress));
         }
-        return Result.success(userOrderPluses);
+        PageInfo pageInfo = new PageInfo(userOrderPluses,page.getTotal(),page.getPages());
+        return Result.success(pageInfo);
     }
 
     @ApiOperation("返回所有已完成订单")
@@ -319,9 +326,11 @@ public class UserOrderController {
             goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
             Shop shop = shopMapper.selectById(userOrder.getShopId());
             shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
+            DeliveryAddress deliveryAddress = deliveryAddressMapper.selectById(userOrder.getAddressId());
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods,deliveryAddress));
         }
-        return Result.success(userOrderPluses);
+        PageInfo pageInfo = new PageInfo(userOrderPluses,page.getTotal(),page.getPages());
+        return Result.success(pageInfo);
     }
 
     @ApiOperation("返回所有已撤销订单")
@@ -340,9 +349,11 @@ public class UserOrderController {
             goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
             Shop shop = shopMapper.selectById(userOrder.getShopId());
             shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
+            DeliveryAddress deliveryAddress = deliveryAddressMapper.selectById(userOrder.getAddressId());
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods,deliveryAddress));
         }
-        return Result.success(userOrderPluses);
+        PageInfo pageInfo = new PageInfo(userOrderPluses,page.getTotal(),page.getPages());
+        return Result.success(pageInfo);
     }
 
     @ApiOperation("返回所有待退款订单")
@@ -361,9 +372,11 @@ public class UserOrderController {
             goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
             Shop shop = shopMapper.selectById(userOrder.getShopId());
             shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
+            DeliveryAddress deliveryAddress = deliveryAddressMapper.selectById(userOrder.getAddressId());
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods,deliveryAddress));
         }
-        return Result.success(userOrderPluses);
+        PageInfo pageInfo = new PageInfo(userOrderPluses,page.getTotal(),page.getPages());
+        return Result.success(pageInfo);
     }
 
     @ApiOperation("返回所有已退款订单")
@@ -382,9 +395,11 @@ public class UserOrderController {
             goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
             Shop shop = shopMapper.selectById(userOrder.getShopId());
             shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
+            DeliveryAddress deliveryAddress = deliveryAddressMapper.selectById(userOrder.getAddressId());
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods,deliveryAddress));
         }
-        return Result.success(userOrderPluses);
+        PageInfo pageInfo = new PageInfo(userOrderPluses,page.getTotal(),page.getPages());
+        return Result.success(pageInfo);
     }
 
     @ApiOperation("返回某一店铺所有待退款订单")
@@ -403,9 +418,34 @@ public class UserOrderController {
             goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
             Shop shop = shopMapper.selectById(userOrder.getShopId());
             shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
-            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods));
+            DeliveryAddress deliveryAddress = deliveryAddressMapper.selectById(userOrder.getAddressId());
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods,deliveryAddress));
         }
-        return Result.success(userOrderPluses);
+        PageInfo pageInfo = new PageInfo(userOrderPluses,page.getTotal(),page.getPages());
+        return Result.success(pageInfo);
+    }
+
+    @ApiOperation("返回某一店铺所有待发货订单")
+    @GetMapping("/showShopUnshippedOrder")
+    public Result<?> showShopUnshippedOrder(@RequestParam Integer shopId,@RequestParam Integer pageNo,@RequestParam Integer pageSize){
+        Page<UserOrder> page = new Page<>(pageNo,pageSize);
+        QueryWrapper<UserOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("shop_id", shopId);
+        wrapper.eq("status",constants.getPaid());
+        userOrderService.page(page,wrapper);
+        List<UserOrder> userOrders = page.getRecords();
+        List<UserOrderPlus> userOrderPluses = new ArrayList<UserOrderPlus>();
+        for (UserOrder userOrder : userOrders) {
+            Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
+            goods.setImage(goodsImageMapper.getByGoodsId(goods.getId()));
+            goods.setCategory(goodsCategoryMapper.getByGoodsId(goods.getId()));
+            Shop shop = shopMapper.selectById(userOrder.getShopId());
+            shop.setCategory(shopCategoryMapper.getByShopId(shop.getId()));
+            DeliveryAddress deliveryAddress = deliveryAddressMapper.selectById(userOrder.getAddressId());
+            userOrderPluses.add(new UserOrderPlus(userOrder,shop,goods,deliveryAddress));
+        }
+        PageInfo pageInfo = new PageInfo(userOrderPluses,page.getTotal(),page.getPages());
+        return Result.success(pageInfo);
     }
 
     @ApiOperation("删除订单")
