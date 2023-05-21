@@ -6,4 +6,9 @@
         FROM ss_goods_category
         WHERE `goods_id` = #{goodsId}
     </select>
+    <select id="getByCategory" resultType="java.lang.Integer">
+        SELECT `goods_id`
+        FROM ss_goods_category
+        WHERE `category_name` LIKE CONCAT('%', #{keyword}, '%')
+    </select>
 </mapper>

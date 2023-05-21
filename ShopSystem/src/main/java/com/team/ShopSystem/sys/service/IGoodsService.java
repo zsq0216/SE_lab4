@@ -31,7 +31,9 @@ public interface IGoodsService extends IService<Goods> {
 
     Result<?> updateGoodsReject(Integer goodsId);
 
-    Result<List<Goods>> searchGoods(String keyword);
+    Result<List<GoodsPlus>> searchGoods(String keyword);
 
     Result<List<GoodsPlus>> recommendGoods(Integer userId);
+
+    Result<List<GoodsPlus>> searchGoodsCategory(String keyword);
 }

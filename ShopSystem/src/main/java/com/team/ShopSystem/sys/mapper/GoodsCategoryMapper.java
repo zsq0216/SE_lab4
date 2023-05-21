@@ -16,4 +16,6 @@ import java.util.List;
  */
 public interface GoodsCategoryMapper extends BaseMapper<GoodsCategory> {
     List<String> getByGoodsId(@Param("goodsId") Integer goodsId);
+
+    List<Integer> getByCategory(String keyword);
 }
