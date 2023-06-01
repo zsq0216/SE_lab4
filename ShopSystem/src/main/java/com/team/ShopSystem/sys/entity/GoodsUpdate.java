@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * @Author: Zhong Siqi
- * @Description: TODO
+ * @Description: 用于商品更新，中间存储节点
  * @DateTime: 2023/4/10 21:31
  **/
 @TableName("ss_goods_update")

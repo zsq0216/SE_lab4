@@ -9,10 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 /**
- * <p>
- * 
- * </p>
- *
+ *商品类别
  * @author xby
  * @since 2023-05-07
  */

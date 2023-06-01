@@ -8,10 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 /**
- * <p>
- * 
- * </p>
- *
+ *用户
  * @author xby
  * @since 2023-03-13
  */

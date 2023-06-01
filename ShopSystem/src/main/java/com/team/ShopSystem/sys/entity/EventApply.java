@@ -11,10 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * <p>
- * 
- * </p>
- *
+ * 申请活动对象
  * @author xby
  * @since 2023-05-09
  */

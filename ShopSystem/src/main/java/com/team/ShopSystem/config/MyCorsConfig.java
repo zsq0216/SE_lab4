@@ -13,7 +13,7 @@ public class MyCorsConfig {
     @Bean
     public CorsFilter corsFilter(){
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:8080");//允许哪些名字访问
+        configuration.addAllowedOrigin("http://120.46.154.28");//允许哪些名字访问
         configuration.setAllowCredentials(true);
         configuration.addAllowedMethod("*");//允许哪些方法访问
         configuration.addAllowedHeader("*");//允许请求头

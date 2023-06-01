@@ -14,10 +14,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * <p>
- * 
- * </p>
- *
+ * 转账流水记录
  * @author xby
  * @since 2023-04-17
  */

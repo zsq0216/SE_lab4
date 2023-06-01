@@ -7,10 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * <p>
- * 
- * </p>
- *
+ * 管理员类
  * @author xby
  * @since 2023-04-15
  */

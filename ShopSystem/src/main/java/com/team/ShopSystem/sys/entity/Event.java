@@ -14,10 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * <p>
- * 
- * </p>
- *
+ * 商品活动
  * @author xby
  * @since 2023-05-09
  */

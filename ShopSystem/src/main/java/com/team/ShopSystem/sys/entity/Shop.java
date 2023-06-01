@@ -11,10 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * <p>
- *
- * </p>
- *
+ * 商店类
  * @author xby
  * @since 2023-03-13
  */

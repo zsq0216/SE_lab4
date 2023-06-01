@@ -45,4 +45,4 @@ constants:
 
 
 prop:
-  upload-folder: /Users/libo/SE_SOFT130006.01/ShopSystem/uploadImage/
+  upload-folder: /opt/project/springboot/uploadImage/

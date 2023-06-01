@@ -12,10 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * <p>
- * 
- * </p>
- *
+ * 活动资金对象
  * @author xby
  * @since 2023-05-09
  */
