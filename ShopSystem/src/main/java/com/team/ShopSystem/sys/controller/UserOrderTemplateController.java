@@ -38,6 +38,8 @@ public class UserOrderTemplateController {
     EventMapper eventMapper;
     @Autowired
     EventCategoryMapper eventCategoryMapper;
+    @Autowired
+    GoodsImageMapper goodsImageMapper;
 
 
     @ApiOperation("确认选择商品")
@@ -70,6 +72,8 @@ public class UserOrderTemplateController {
             Goods goods = goodsMapper.selectById(userOrderTemplate.getGoodsId());
             categoryList = goodsCategoryMapper.getByGoodsId(goods.getId());
             goods.setCategory(categoryList);
+            List<String> images=goodsImageMapper.getByGoodsId(goods.getId());
+            goods.setImage(images);
             Event event = eventMapper.selectById(userOrderTemplate.getEventId());
             categoryList = eventCategoryMapper.selectByEventId(event.getId());
             userOrderTemplatePlusList.add(new UserOrderTemplatePlus(userOrderTemplate,shop,goods,event));

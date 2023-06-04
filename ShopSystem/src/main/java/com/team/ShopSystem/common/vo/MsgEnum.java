@@ -17,7 +17,9 @@ public enum MsgEnum {
     ERROR_SHOPFUND(20013,"商店注册资金不达标"),
     ERROR_SHOPSALES(20014,"商店销售额不达标"),
     ERROR_SHOPPROFIT(20015,"商店利润不达标"),
-    ERROR_EVENTEND(20016,"活动已结束");
+    ERROR_EVENTEND(20016,"活动已结束"),
+    ERROR_REPEATEVENT(20017,"申请活动重复"),
+    ERROR_SHOPCATEGORY(20018,"商店无符合的类别");
     private Integer code;
     private String message;
 
