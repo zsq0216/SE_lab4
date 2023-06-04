@@ -113,17 +113,26 @@ public class UserOrderController {
             if(events[i] == 0){
                 continue;
             }
+            Event event = eventMapper.selectById(events[i]);
+            if(event.getStatus() == constants.getRejected()){
+                List<UserOrder> userOrderList = userOrderMapper.selectByUserIdAndEventId(userOrders.get(0).getUserId(),events[i]);
+                for (UserOrder userOrder : userOrderList) {
+                    Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
+                    userOrder.setUnitPrice(goods.getPrice());
+                    userOrder.setTotalPrice(userOrder.getQuantity() * goods.getPrice());
+                    userOrder.setEventId(0);
+                    userOrderMapper.updateById(userOrder);
+                }
+                return Result.fail(MsgEnum.ERROR_EVENTEND,events[i]);
+            }
             if(price_amount.get(events[i])>eventFundsMapper.selectFundsByEventId(events[i])){
-                Event event = eventMapper.selectById(events[i]);
-                if(event.getStatus() == constants.getRejected()){
-                    List<UserOrder> userOrderList = userOrderMapper.selectByUserIdAndEventId(userOrders.get(0).getUserId(),events[i]);
-                    for (UserOrder userOrder : userOrderList) {
-                        Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
-                        userOrder.setUnitPrice(goods.getPrice());
-                        userOrder.setTotalPrice(userOrder.getQuantity() * goods.getPrice());
-                        userOrderMapper.updateById(userOrder);
-                    }
-                    return Result.fail(MsgEnum.ERROR_EVENTEND,events[i]);
+                List<UserOrder> userOrderList = userOrderMapper.selectByUserIdAndEventId(userOrders.get(0).getUserId(),events[i]);
+                for (UserOrder userOrder : userOrderList) {
+                    Goods goods = goodsMapper.selectById(userOrder.getGoodsId());
+                    userOrder.setUnitPrice(goods.getPrice());
+                    userOrder.setTotalPrice(userOrder.getQuantity() * goods.getPrice());
+                    userOrder.setEventId(0);
+                    userOrderMapper.updateById(userOrder);
                 }
                 float left_funds = eventFundsMapper.selectFundsByEventId(events[i]);
                 transferRecordsMapper.insert(new TransferRecords("admin_intermediate",left_funds,"admin_profit",LocalDate.now(),"remaining funds refunded"));
@@ -165,7 +174,6 @@ public class UserOrderController {
         }
         return Result.success("支付成功");
     }
-
     @ApiOperation("确认收货")
     @PutMapping("/receive")
     public Result<?> receive(@RequestBody UserOrder userOrder,@RequestParam String stime){
